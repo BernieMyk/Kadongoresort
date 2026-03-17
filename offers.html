@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Exclusive offers and holiday packages at Kadongo Resort. Honeymoon specials, family deals, and adventure bundles on Mfangano Island.">
+  <title>Offers & Packages | Kadongo Resort - Mfangano Island</title>
+  
+  <style>
+    /* ===== RESET & BASE ===== */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background: transparent;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* ===== BRAND VARIABLES ===== */
+    :root {
+      --primary: #2c5f4d;
+      --accent: #e67e22;
+      --accent-hover: #d35400;
+      --dark: #1a252f;
+      --light: #f8f9fa;
+      --radius: 12px;
+      --shadow: 0 4px 20px rgba(0,0,0,0.08);
+      --shadow-hover: 0 10px 30px rgba(0,0,0,0.15);
+    }
+
+    /* ===== PAGE HEADER ===== */
+    .page-header {
+      background: linear-gradient(135deg, rgba(44,95,77,0.9), rgba(26,37,47,0.85)),
+                 url('https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1920&q=80') center/cover;
+      color: #fff;
+      padding: 100px 0 60px;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+    }
+    .page-header h1 { font-size: 2.8rem; margin-bottom: 15px; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
+    .page-header p { font-size: 1.2rem; max-width: 700px; margin: 0 auto; opacity: 0.95; }
+
+    /* ===== INTRO SECTION ===== */
+    .intro-text {
+      text-align: center;
+      padding: 40px 0;
+      max-width: 800px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+    .intro-text h2 { color: var(--primary); margin-bottom: 15px; }
+    .intro-text p { color: #555; font-size: 1.1rem; }
+
+    /* ===== OFFERS GRID ===== */
+    .offers-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 30px;
+      padding: 20px 0 60px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .offer-card {
+      background: #fff;
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: transform 0.3s, box-shadow 0.3s;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .offer-card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    /* Badge for Best Value */
+    .badge {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: var(--accent);
+      color: #fff;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      z-index: 2;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+
+    .offer-image {
+      height: 220px;
+      width: 100%;
+      object-fit: cover;
+      transition: transform 0.5s;
+    }
+
+    .offer-card:hover .offer-image {
+      transform: scale(1.05);
+    }
+
+    .offer-content {
+      padding: 25px;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .offer-title {
+      font-size: 1.4rem;
+      color: var(--primary);
+      margin-bottom: 10px;
+    }
+
+    .offer-validity {
+      font-size: 0.9rem;
+      color: #888;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .offer-features {
+      list-style: none;
+      margin-bottom: 20px;
+      flex-grow: 1;
+    }
+
+    .offer-features li {
+      margin-bottom: 10px;
+      color: #555;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .offer-features li::before {
+      content: '✓';
+      color: var(--primary);
+      font-weight: bold;
+    }
+
+    .offer-price {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--accent);
+      margin-bottom: 20px;
+      display: block;
+    }
+    .offer-price small {
+      font-size: 0.9rem;
+      font-weight: 400;
+      color: #666;
+    }
+
+    .btn-offer {
+      display: block;
+      width: 100%;
+      text-align: center;
+      background: var(--primary);
+      color: #fff;
+      padding: 14px;
+      border-radius: 8px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background 0.3s;
+    }
+
+    .btn-offer:hover {
+      background: var(--accent);
+    }
+
+    /* ===== CTA SECTION ===== */
+    .custom-offer-cta {
+      background: linear-gradient(135deg, var(--primary), #1a3a32);
+      color: #fff;
+      text-align: center;
+      padding: 60px 20px;
+      border-radius: var(--radius);
+      margin-bottom: 60px;
+      position: relative;
+      z-index: 2;
+    }
+    .custom-offer-cta h2 { margin-bottom: 15px; }
+    .custom-offer-cta p { margin-bottom: 25px; opacity: 0.9; max-width: 600px; margin-left: auto; margin-right: auto; }
+    .btn-white {
+      background: #fff;
+      color: var(--primary);
+      padding: 14px 35px;
+      border-radius: 8px;
+      font-weight: 700;
+      text-decoration: none;
+      display: inline-block;
+      transition: transform 0.2s;
+    }
+    .btn-white:hover { transform: translateY(-3px); }
+
+    /* ===== RESPONSIVE ===== */
+    @media(max-width: 768px) {
+      .page-header h1 { font-size: 2.2rem; }
+      .offers-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 🔽 PARTICLE NETWORK BACKGROUND 🔽 -->
+  <style>
+    #particle-canvas{
+      position:fixed;
+      top:0;
+      left:0;
+      width:100%;
+      height:100%;
+      z-index:-1;
+      pointer-events:none;
+      background:linear-gradient(135deg, #f8f9fa 0%, #e8f4f8 100%);
+    }
+  </style>
+  <canvas id="particle-canvas"></canvas>
+
+  <script>
+    // ===== PARTICLE SCRIPT =====
+    (function() {
+      const canvas = document.getElementById('particle-canvas');
+      if(!canvas) return;
+      const ctx = canvas.getContext('2d');
+      let particles = [];
+      let mouse = { x: null, y: null, radius: 150 };
+      const colors = ['#2c5f4d', '#e67e22', '#3498db', '#95a5a6'];
+      
+      function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+      
+      class Particle {
+        constructor() {
+          this.x = Math.random() * canvas.width;
+          this.y = Math.random() * canvas.height;
+          this.size = Math.random() * 2 + 1;
+          this.speedX = (Math.random() - 0.5) * 0.5;
+          this.speedY = (Math.random() - 0.5) * 0.5;
+          this.color = colors[Math.floor(Math.random() * colors.length)];
+          this.originalSize = this.size;
+        }
+        update() {
+          if(mouse.x && mouse.y) {
+            const dx = mouse.x - this.x;
+            const dy = mouse.y - this.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            if(distance < mouse.radius) {
+              const force = (mouse.radius - distance) / mouse.radius;
+              this.size = this.originalSize + force * 2;
+              this.x += dx * 0.01 * force;
+              this.y += dy * 0.01 * force;
+            } else { this.size = this.originalSize; }
+          }
+          if(this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+          if(this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+          this.x += this.speedX;
+          this.y += this.speedY;
+        }
+        draw() {
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+          ctx.fillStyle = this.color;
+          ctx.fill();
+        }
+      }
+      
+      function init() {
+        resize();
+        particles = [];
+        const count = Math.min(80, Math.floor((canvas.width * canvas.height) / 15000));
+        for(let i = 0; i < count; i++) particles.push(new Particle());
+      }
+      
+      function connect() {
+        for(let a = 0; a < particles.length; a++) {
+          for(let b = a; b < particles.length; b++) {
+            const dx = particles[a].x - particles[b].x;
+            const dy = particles[a].y - particles[b].y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            if(distance < 120) {
+              ctx.beginPath();
+              ctx.strokeStyle = `rgba(44, 95, 77, ${0.15 - distance/800})`;
+              ctx.lineWidth = 0.5;
+              ctx.moveTo(particles[a].x, particles[a].y);
+              ctx.lineTo(particles[b].x, particles[b].y);
+              ctx.stroke();
+            }
+          }
+          if(mouse.x && mouse.y) {
+            const dx = particles[a].x - mouse.x;
+            const dy = particles[a].y - mouse.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            if(distance < mouse.radius) {
+              ctx.beginPath();
+              ctx.strokeStyle = `rgba(230, 126, 34, ${0.3 - distance/500})`;
+              ctx.lineWidth = 0.8;
+              ctx.moveTo(particles[a].x, particles[a].y);
+              ctx.lineTo(mouse.x, mouse.y);
+              ctx.stroke();
+            }
+          }
+        }
+      }
+      
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        for(let particle of particles) { particle.update(); particle.draw(); }
+        connect();
+        requestAnimationFrame(animate);
+      }
+      
+      window.addEventListener('resize', () => { resize(); init(); });
+      window.addEventListener('mousemove', e => { mouse.x = e.x; mouse.y = e.y; });
+      window.addEventListener('mouseout', () => { mouse.x = null; mouse.y = null; });
+      window.addEventListener('touchmove', e => { if(e.touches[0]) { mouse.x = e.touches[0].clientX; mouse.y = e.touches[0].clientY; } });
+      
+      init();
+      animate();
+    })();
+  </script>
+
+  <!-- Header loads here -->
+  <div id="header"></div>
+
+  <main>
+    <!-- Page Header -->
+    <section class="page-header">
+      <div class="container">
+        <h1>Special Offers & Packages</h1>
+        <p>Curated experiences designed to make your stay on Mfangano Island unforgettable.</p>
+      </div>
+    </section>
+
+    <!-- Intro Text -->
+    <div class="container">
+      <div class="intro-text">
+        <h2>Escape to Paradise for Less</h2>
+        <p>Whether you're planning a romantic getaway, a family adventure, or a wellness retreat, our exclusive packages offer exceptional value including accommodation, meals, and unique island experiences.</p>
+      </div>
+    </div>
+
+    <!-- Offers Grid -->
+    <div class="container">
+      <div class="offers-grid">
+        
+        <!-- Offer 1: Honeymoon -->
+        <div class="offer-card">
+          <span class="badge">Most Popular</span>
+          <img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?auto=format&fit=crop&w=800&q=80" alt="Honeymoon Couple" class="offer-image">
+          <div class="offer-content">
+            <h3 class="offer-title">Romantic Honeymoon Bundle</h3>
+            <div class="offer-validity">📅 Valid: Year Round</div>
+            <ul class="offer-features">
+              <li>3 Nights in Lake View Suite</li>
+              <li>Daily breakfast & 1 candlelit dinner</li>
+              <li>Couples massage (60 mins)</li>
+              <li>Sunset dhow cruise</li>
+              <li>Complimentary room upgrade (subject to availability)</li>
+            </ul>
+            <span class="offer-price">$550 <small>/ couple</small></span>
+            <a href="booking.html?package=honeymoon" class="btn-offer">Book This Offer</a>
+          </div>
+        </div>
+
+        <!-- Offer 2: Family -->
+        <div class="offer-card">
+          <img src="https://images.unsplash.com/photo-1542037104857-ffbb0b9155fb?auto=format&fit=crop&w=800&q=80" alt="Family Fun" class="offer-image">
+          <div class="offer-content">
+            <h3 class="offer-title">Family Adventure Pack</h3>
+            <div class="offer-validity">📅 Valid: School Holidays</div>
+            <ul class="offer-features">
+              <li>4 Nights in Garden Villa</li>
+              <li>Full board (Breakfast, Lunch, Dinner)</li>
+              <li>Kids eat free (under 12)</li>
+              <li>Guided nature walk for kids</li>
+              <li>Family boat trip to nearby islands</li>
+            </ul>
+            <span class="offer-price">$890 <small>/ family (up to 4)</small></span>
+            <a href="booking.html?package=family" class="btn-offer">Book This Offer</a>
+          </div>
+        </div>
+
+        <!-- Offer 3: Wellness -->
+        <div class="offer-card">
+          <span class="badge">Best Value</span>
+          <img src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&w=800&q=80" alt="Spa Wellness" class="offer-image">
+          <div class="offer-content">
+            <h3 class="offer-title">Wellness & Detox Retreat</h3>
+            <div class="offer-validity">📅 Valid: Mon-Thu Only</div>
+            <ul class="offer-features">
+              <li>5 Nights in Traditional Banda</li>
+              <li>Healthy organic meal plan</li>
+              <li>Daily yoga sessions at sunrise</li>
+              <li>2 x Spa treatments of choice</li>
+              <li>Meditation guide included</li>
+            </ul>
+            <span class="offer-price">$720 <small>/ person</small></span>
+            <a href="booking.html?package=wellness" class="btn-offer">Book This Offer</a>
+          </div>
+        </div>
+
+        <!-- Offer 4: Adventure -->
+        <div class="offer-card">
+          <img src="https://images.unsplash.com/photo-1502680390469-be75c86b636f?auto=format&fit=crop&w=800&q=80" alt="Fishing Adventure" class="offer-image">
+          <div class="offer-content">
+            <h3 class="offer-title">Angler's Dream Package</h3>
+            <div class="offer-validity">📅 Valid: June - September</div>
+            <ul class="offer-features">
+              <li>4 Nights in Lake View Suite</li>
+              <li>Full board dining</li>
+              <li>2 Days guided Nile Perch fishing</li>
+              <li>All fishing gear and licenses included</li>
+              <li>Catch cleaning and packing service</li>
+            </ul>
+            <span class="offer-price">$950 <small>/ person (sharing)</small></span>
+            <a href="booking.html?package=angler" class="btn-offer">Book This Offer</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Custom Offer CTA -->
+    <div class="container">
+      <div class="custom-offer-cta">
+        <h2>Planning a Group Event or Wedding?</h2>
+        <p>We create bespoke packages for weddings, corporate retreats, and large groups. Contact us today to design your perfect itinerary.</p>
+        <a href="contact.html" class="btn-white">Contact Us for Custom Quote</a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer loads here -->
+  <div id="footer"></div>
+
+  <script>
+    // ===== LOAD HEADER & FOOTER =====
+    Promise.all([
+      fetch("header.html").then(res => res.ok ? res.text() : ''),
+      fetch("footer.html").then(res => res.ok ? res.text() : '')
+    ])
+    .then(([headerData, footerData]) => {
+      document.getElementById("header").innerHTML = headerData;
+      document.getElementById("footer").innerHTML = footerData;
+      
+      // Highlight active link
+      const currentFile = window.location.pathname.split('/').pop() || 'index.html';
+      document.querySelectorAll('.nav-link').forEach(link => {
+        if(link.getAttribute('href') === currentFile) link.classList.add('active');
+      });
+    })
+    .catch(err => console.error('Error loading components:', err));
+  </script>
+</body>
+</html>

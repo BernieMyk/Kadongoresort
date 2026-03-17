@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Explore the beauty of Kadongo Resort through our photo gallery. Lake views, luxury rooms, dining, and cultural experiences on Mfangano Island.">
+  <title>Gallery | Kadongo Resort - Mfangano Island</title>
+  
+  <style>
+    /* ===== RESET & BASE ===== */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background: transparent;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* ===== BRAND VARIABLES ===== */
+    :root {
+      --primary: #2c5f4d;
+      --accent: #e67e22;
+      --dark: #1a252f;
+      --light: #f8f9fa;
+      --radius: 12px;
+      --shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+
+    /* ===== PAGE HEADER ===== */
+    .page-header {
+      background: linear-gradient(135deg, rgba(44,95,77,0.9), rgba(26,37,47,0.85)),
+                 url('https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1920&q=80') center/cover;
+      color: #fff;
+      padding: 100px 0 60px;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+    }
+    .page-header h1 { font-size: 2.8rem; margin-bottom: 15px; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
+    .page-header p { font-size: 1.2rem; max-width: 700px; margin: 0 auto; opacity: 0.95; }
+
+    /* ===== FILTERS ===== */
+    .filter-container {
+      text-align: center;
+      padding: 40px 0;
+      position: relative;
+      z-index: 2;
+    }
+    .filter-btn {
+      padding: 10px 25px;
+      margin: 5px;
+      border: 2px solid var(--primary);
+      background: #fff;
+      color: var(--primary);
+      border-radius: 30px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    .filter-btn:hover, .filter-btn.active {
+      background: var(--primary);
+      color: #fff;
+      transform: translateY(-2px);
+    }
+
+    /* ===== GALLERY GRID ===== */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+      padding-bottom: 60px;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .gallery-item {
+      position: relative;
+      border-radius: var(--radius);
+      overflow: hidden;
+      height: 250px;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      transition: transform 0.3s ease;
+    }
+    
+    .gallery-item:hover {
+      transform: scale(1.03);
+      z-index: 3;
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .gallery-item:hover img {
+      transform: scale(1.1);
+    }
+
+    .overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+      padding: 20px;
+      color: #fff;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      transform: translateY(10px);
+    }
+
+    .gallery-item:hover .overlay {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .overlay h3 { font-size: 1.1rem; margin-bottom: 5px; }
+    .overlay p { font-size: 0.9rem; opacity: 0.9; }
+
+    /* ===== LIGHTBOX (MODAL) ===== */
+    .lightbox {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.95);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    
+    .lightbox.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .lightbox img {
+      max-width: 90%;
+      max-height: 90%;
+      border-radius: 8px;
+      box-shadow: 0 0 30px rgba(0,0,0,0.5);
+      transform: scale(0.9);
+      transition: transform 0.3s ease;
+    }
+
+    .lightbox.active img {
+      transform: scale(1);
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 30px;
+      right: 40px;
+      color: #fff;
+      font-size: 3rem;
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+    .lightbox-close:hover { color: var(--accent); }
+
+    /* ===== RESPONSIVE ===== */
+    @media(max-width: 768px) {
+      .page-header h1 { font-size: 2.2rem; }
+      .gallery-grid { grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); }
+      .lightbox-close { top: 20px; right: 20px; font-size: 2.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 🔽 PARTICLE NETWORK BACKGROUND 🔽 -->
+  <style>
+    #particle-canvas{
+      position:fixed;
+      top:0;
+      left:0;
+      width:100%;
+      height:100%;
+      z-index:-1;
+      pointer-events:none;
+      background:linear-gradient(135deg, #f8f9fa 0%, #e8f4f8 100%);
+    }
+  </style>
+  <canvas id="particle-canvas"></canvas>
+
+  <script>
+    // ===== PARTICLE SCRIPT (Same as other pages) =====
+    (function() {
+      const canvas = document.getElementById('particle-canvas');
+      if(!canvas) return;
+      const ctx = canvas.getContext('2d');
+      let particles = [];
+      let mouse = { x: null, y: null, radius: 150 };
+      const colors = ['#2c5f4d', '#e67e22', '#3498db', '#95a5a6'];
+      
+      function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+      
+      class Particle {
+        constructor() {
+          this.x = Math.random() * canvas.width;
+          this.y = Math.random() * canvas.height;
+          this.size = Math.random() * 2 + 1;
+          this.speedX = (Math.random() - 0.5) * 0.5;
+          this.speedY = (Math.random() - 0.5) * 0.5;
+          this.color = colors[Math.floor(Math.random() * colors.length)];
+          this.originalSize = this.size;
+        }
+        update() {
+          if(mouse.x && mouse.y) {
+            const dx = mouse.x - this.x;
+            const dy = mouse.y - this.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            if(distance < mouse.radius) {
+              const force = (mouse.radius - distance) / mouse.radius;
+              this.size = this.originalSize + force * 2;
+              this.x += dx * 0.01 * force;
+              this.y += dy * 0.01 * force;
+            } else { this.size = this.originalSize; }
+          }
+          if(this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+          if(this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+          this.x += this.speedX;
+          this.y += this.speedY;
+        }
+        draw() {
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+          ctx.fillStyle = this.color;
+          ctx.fill();
+        }
+      }
+      
+      function init() {
+        resize();
+        particles = [];
+        const count = Math.min(80, Math.floor((canvas.width * canvas.height) / 15000));
+        for(let i = 0; i < count; i++) particles.push(new Particle());
+      }
+      
+      function connect() {
+        for(let a = 0; a < particles.length; a++) {
+          for(let b = a; b < particles.length; b++) {
+            const dx = particles[a].x - particles[b].x;
+            const dy = particles[a].y - particles[b].y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            if(distance < 120) {
+              ctx.beginPath();
+              ctx.strokeStyle = `rgba(44, 95, 77, ${0.15 - distance/800})`;
+              ctx.lineWidth = 0.5;
+              ctx.moveTo(particles[a].x, particles[a].y);
+              ctx.lineTo(particles[b].x, particles[b].y);
+              ctx.stroke();
+            }
+          }
+          if(mouse.x && mouse.y) {
+            const dx = particles[a].x - mouse.x;
+            const dy = particles[a].y - mouse.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            if(distance < mouse.radius) {
+              ctx.beginPath();
+              ctx.strokeStyle = `rgba(230, 126, 34, ${0.3 - distance/500})`;
+              ctx.lineWidth = 0.8;
+              ctx.moveTo(particles[a].x, particles[a].y);
+              ctx.lineTo(mouse.x, mouse.y);
+              ctx.stroke();
+            }
+          }
+        }
+      }
+      
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        for(let particle of particles) { particle.update(); particle.draw(); }
+        connect();
+        requestAnimationFrame(animate);
+      }
+      
+      window.addEventListener('resize', () => { resize(); init(); });
+      window.addEventListener('mousemove', e => { mouse.x = e.x; mouse.y = e.y; });
+      window.addEventListener('mouseout', () => { mouse.x = null; mouse.y = null; });
+      window.addEventListener('touchmove', e => { if(e.touches[0]) { mouse.x = e.touches[0].clientX; mouse.y = e.touches[0].clientY; } });
+      
+      init();
+      animate();
+    })();
+  </script>
+
+  <!-- Header loads here -->
+  <div id="header"></div>
+
+  <main>
+    <!-- Page Header -->
+    <section class="page-header">
+      <div class="container">
+        <h1>Photo Gallery</h1>
+        <p>A visual journey through paradise. Explore our rooms, dining, and the breathtaking beauty of Mfangano Island.</p>
+      </div>
+    </section>
+
+    <!-- Filters -->
+    <div class="container">
+      <div class="filter-container">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="rooms">Rooms & Suites</button>
+        <button class="filter-btn" data-filter="dining">Dining</button>
+        <button class="filter-btn" data-filter="nature">Nature & Lake</button>
+        <button class="filter-btn" data-filter="culture">Culture</button>
+      </div>
+    </div>
+
+    <!-- Gallery Grid -->
+    <div class="container">
+      <div class="gallery-grid">
+        
+        <!-- Item 1: Room -->
+        <div class="gallery-item" data-category="rooms">
+          <img src="https://images.unsplash.com/photo-1611892440504-42a792e24d32?auto=format&fit=crop&w=800&q=80" alt="Luxury Suite View">
+          <div class="overlay">
+            <h3>Lake View Suite</h3>
+            <p>Wake up to the sunrise over Lake Victoria.</p>
+          </div>
+        </div>
+
+        <!-- Item 2: Dining -->
+        <div class="gallery-item" data-category="dining">
+          <img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=800&q=80" alt="Outdoor Dining">
+          <div class="overlay">
+            <h3>Lakeside Dining</h3>
+            <p>Fresh catch of the day served under the stars.</p>
+          </div>
+        </div>
+
+        <!-- Item 3: Nature -->
+        <div class="gallery-item" data-category="nature">
+          <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80" alt="Mfangano Beach">
+          <div class="overlay">
+            <h3>Private Beach</h3>
+            <p>Pristine sands exclusive to our guests.</p>
+          </div>
+        </div>
+
+        <!-- Item 4: Room Interior -->
+        <div class="gallery-item" data-category="rooms">
+          <img src="https://images.unsplash.com/photo-1590490360182-c31938a86497?auto=format&fit=crop&w=800&q=80" alt="Garden Villa">
+          <div class="overlay">
+            <h3>Garden Villa</h3>
+            <p>Surrounded by tropical lushness.</p>
+          </div>
+        </div>
+
+        <!-- Item 5: Culture -->
+        <div class="gallery-item" data-category="culture">
+          <img src="https://images.unsplash.com/photo-1523805009345-7448845a9e53?auto=format&fit=crop&w=800&q=80" alt="Luo Cultural Dance">
+          <div class="overlay">
+            <h3>Cultural Experience</h3>
+            <p>Traditional Luo dance performances.</p>
+          </div>
+        </div>
+
+        <!-- Item 6: Pool/Relax -->
+        <div class="gallery-item" data-category="nature">
+          <img src="https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&w=800&q=80" alt="Infinity Pool">
+          <div class="overlay">
+            <h3>Infinity Pool</h3>
+            <p>Blending seamlessly with the lake horizon.</p>
+          </div>
+        </div>
+
+        <!-- Item 7: Food Detail -->
+        <div class="gallery-item" data-category="dining">
+          <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=80" alt="Gourmet Dish">
+          <div class="overlay">
+            <h3>Local Cuisine</h3>
+            <p>Organic ingredients from our own garden.</p>
+          </div>
+        </div>
+
+        <!-- Item 8: Banda -->
+        <div class="gallery-item" data-category="rooms">
+          <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=800&q=80" alt="Traditional Banda">
+          <div class="overlay">
+            <h3>Traditional Banda</h3>
+            <p>Authentic architecture with modern luxury.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- Lightbox Modal -->
+  <div class="lightbox" id="lightbox">
+    <span class="lightbox-close">&times;</span>
+    <img src="" alt="Full screen view">
+  </div>
+
+  <!-- Footer loads here -->
+  <div id="footer"></div>
+
+  <script>
+    // ===== LOAD HEADER & FOOTER =====
+    Promise.all([
+      fetch("header.html").then(res => res.ok ? res.text() : ''),
+      fetch("footer.html").then(res => res.ok ? res.text() : '')
+    ])
+    .then(([headerData, footerData]) => {
+      document.getElementById("header").innerHTML = headerData;
+      document.getElementById("footer").innerHTML = footerData;
+      
+      // Highlight active link after load
+      const currentFile = window.location.pathname.split('/').pop() || 'index.html';
+      document.querySelectorAll('.nav-link').forEach(link => {
+        if(link.getAttribute('href') === currentFile) link.classList.add('active');
+      });
+    })
+    .catch(err => console.error('Error loading components:', err));
+
+    // ===== FILTER FUNCTIONALITY =====
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const galleryItems = document.querySelectorAll('.gallery-item');
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        // Remove active class from all
+        filterBtns.forEach(b => b.classList.remove('active'));
+        // Add active to clicked
+        btn.classList.add('active');
+        
+        const filterValue = btn.getAttribute('data-filter');
+
+        galleryItems.forEach(item => {
+          if (filterValue === 'all' || item.getAttribute('data-category') === filterValue) {
+            item.style.display = 'block';
+            setTimeout(() => {
+              item.style.opacity = '1';
+              item.style.transform = 'scale(1)';
+            }, 50);
+          } else {
+            item.style.opacity = '0';
+            item.style.transform = 'scale(0.8)';
+            setTimeout(() => {
+              item.style.display = 'none';
+            }, 300);
+          }
+        });
+      });
+    });
+
+    // ===== LIGHTBOX FUNCTIONALITY =====
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = lightbox.querySelector('img');
+    const closeBtn = document.querySelector('.lightbox-close');
+
+    galleryItems.forEach(item => {
+      item.addEventListener('click', () => {
+        const img = item.querySelector('img');
+        // Use the same source, but in a real scenario you might have a data-full-res attribute
+        lightboxImg.src = img.src; 
+        lightbox.classList.add('active');
+        document.body.style.overflow = 'hidden'; // Prevent scrolling
+      });
+    });
+
+    const closeLightbox = () => {
+      lightbox.classList.remove('active');
+      document.body.style.overflow = 'auto';
+    };
+
+    closeBtn.addEventListener('click', closeLightbox);
+    
+    // Close when clicking outside the image
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox) closeLightbox();
+    });
+
+    // Close on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+        closeLightbox();
+      }
+    });
+  </script>
+</body>
+</html>
