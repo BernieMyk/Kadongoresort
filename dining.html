@@ -1,548 +1,615 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="description" content="Dine at Kadongo Resort on Mfangano Island. Lakeside restaurant, sunset bar, farm-to-table cuisine, and private dining experiences.">
+  <meta name="description" content="Dining at Kadongo Resort — Farm-to-table cuisine, lakeside sunsets, and authentic Luo flavors crafted for your pleasure.">
   <title>Dining | Kadongo Resort - Mfangano Island</title>
   
-  <!-- 🔽 INLINE CSS: GLOBAL + DINING PAGE STYLES 🔽 -->
+  <!-- Critical: Particle canvas must not block header clicks -->
   <style>
-    /* ===== RESET & BASE ===== */
-    *{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;line-height:1.6;color:#333;background:#f8f9fa;overflow-x:hidden}
-    a{text-decoration:none;color:inherit;transition:color 0.3s}
-    img{max-width:100%;display:block}
-    ul{list-style:none}
-    .container{max-width:1200px;margin:0 auto;padding:0 20px}
-    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
-    
-    /* ===== 🎨 KADONGO BRAND VARIABLES ===== */
-    :root{
-      --primary:#2c5f4d;--accent:#e67e22;--accent-hover:#d35400;
-      --dark:#1a252f;--light:#f8f9fa;
-      --shadow:0 4px 20px rgba(0,0,0,0.08);--shadow-hover:0 8px 30px rgba(0,0,0,0.12);
-      --radius:12px;
-    }
-    
-    /* ===== 📄 PAGE HEADER ===== */
-    .page-header{
-      background:linear-gradient(135deg,rgba(44,95,77,0.9),rgba(26,37,47,0.85)),
-                 url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1920&q=80') center/cover;
-      color:#fff;padding:100px 0 60px;text-align:center;
-    }
-    .page-header h1{font-size:2.8rem;margin-bottom:15px}
-    .page-header p{font-size:1.2rem;max-width:700px;margin:0 auto;opacity:0.95}
-    
-    /* ===== 🍽️ RESTAURANT CARDS ===== */
-    .restaurants-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:35px;padding:40px 0}
-    .restaurant-card{
-      background:#fff;border-radius:var(--radius);overflow:hidden;
-      box-shadow:var(--shadow);transition:transform 0.3s, box-shadow 0.3s;
-    }
-    .restaurant-card:hover{transform:translateY(-8px);box-shadow:var(--shadow-hover)}
-    .restaurant-image{height:220px;position:relative;background:#ddd center/cover no-repeat}
-    .restaurant-badge{
-      position:absolute;top:15px;right:15px;background:var(--accent);color:#fff;
-      padding:5px 12px;border-radius:20px;font-size:0.8rem;font-weight:600;
-    }
-    .restaurant-content{padding:25px}
-    .restaurant-content h3{font-size:1.4rem;color:var(--primary);margin:0 0 10px}
-    .restaurant-meta{display:flex;gap:15px;color:#666;font-size:0.95rem;margin:15px 0;flex-wrap:wrap}
-    .restaurant-meta span{display:flex;align-items:center;gap:5px}
-    .restaurant-content p{color:#555;margin:15px 0;line-height:1.7}
-    .btn-reserve{
-      display:inline-block;background:var(--primary);color:#fff;padding:12px 24px;
-      border-radius:8px;font-weight:600;transition:background 0.3s;
-    }
-    .btn-reserve:hover{background:#234d3e}
-    
-    /* ===== 🕒 HOURS SECTION ===== */
-    .hours-section{background:var(--light);padding:60px 0;margin:40px 0}
-    .hours-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:30px}
-    .hours-card{
-      background:#fff;padding:25px;border-radius:var(--radius);
-      box-shadow:var(--shadow);text-align:center;
-    }
-    .hours-card h4{color:var(--primary);margin:0 0 15px;font-size:1.2rem}
-    .hours-card .schedule{color:#666;line-height:2}
-    .hours-card .schedule strong{color:var(--primary)}
-    
-    /* ===== 📋 MENU PREVIEW ===== */
-    .menu-preview{padding:60px 0}
-    .menu-tabs{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:30px}
-    .menu-tab{
-      padding:10px 20px;border:2px solid var(--primary);border-radius:30px;
-      background:#fff;color:var(--primary);font-weight:600;cursor:pointer;transition:all 0.3s;
-    }
-    .menu-tab.active,.menu-tab:hover{background:var(--primary);color:#fff}
-    .menu-items{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:25px}
-    .menu-item{
-      display:flex;gap:15px;padding:20px;background:#fff;
-      border-radius:var(--radius);box-shadow:var(--shadow);
-    }
-    .menu-item-image{
-      width:80px;height:80px;border-radius:8px;
-      background:#ddd center/cover no-repeat;flex-shrink:0;
-    }
-    .menu-item-content h4{color:var(--primary);margin:0 0 5px;font-size:1.1rem}
-    .menu-item-content .price{color:var(--accent);font-weight:700;margin:5px 0}
-    .menu-item-content p{color:#666;font-size:0.95rem;margin:0}
-    
-    /* ===== 🎁 PRIVATE DINING CTA ===== */
-    .private-dining{
-      background:linear-gradient(135deg,var(--primary),#1a3a32);
-      color:#fff;padding:60px 20px;text-align:center;border-radius:var(--radius);
-      margin:40px 0;
-    }
-    .private-dining h3{font-size:1.8rem;margin:0 0 15px}
-    .private-dining p{opacity:0.9;margin:0 0 25px;max-width:600px;margin-left:auto;margin-right:auto}
-    .btn-private{
-      background:#fff;color:var(--primary);padding:14px 35px;
-      border-radius:8px;font-weight:700;display:inline-block;
-      transition:transform 0.3s;
-    }
-    .btn-private:hover{transform:translateY(-3px)}
-    
-    /* ===== 🎨 PARTICLE BACKGROUND (YOUR EXACT SNIPPET) ===== */
-    #particle-canvas{
-      position:fixed;
-      top:0;
-      left:0;
-      width:100%;
-      height:100%;
-      z-index:-1;
-      pointer-events:none;
-      background:linear-gradient(135deg, #f8f9fa 0%, #e8f4f8 100%);
-    }
-    body.dark-bg #particle-canvas{
-      background:linear-gradient(135deg, #1a252f 0%, #2c3e50 100%);
-    }
-    
-    /* ===== 📱 RESPONSIVE ===== */
-    @media(max-width:768px){
-      .page-header h1{font-size:2.2rem}
-      .restaurants-grid{grid-template-columns:1fr}
-      .menu-tabs{flex-direction:column;align-items:center}
-      .menu-item{flex-direction:column;text-align:center}
-      .private-dining{padding:40px 20px}
-    }
-    @media(max-width:480px){
-      .page-header{padding:70px 0 40px}
-      .restaurant-meta{flex-direction:column;gap:8px}
-    }
+    #particle-canvas { pointer-events: none !important; z-index: -1 !important; position: fixed; top: 0; left: 0; width: 100%; height: 100%; }
+    #header-placeholder { position: relative; z-index: 10000; }
+    #header-placeholder, #footer-placeholder { min-height: 80px; }
   </style>
 </head>
 <body>
 
-  <!-- 🌟 PARTICLE BACKGROUND CANVAS (YOUR EXACT SNIPPET) -->
-  <canvas id="particle-canvas"></canvas>
-  <script>
-    // ===== PARTICLE NETWORK ANIMATION (Mouse-Follow Constellation) =====
-    (function() {
-      const canvas = document.getElementById('particle-canvas');
-      if(!canvas) return;
-      
-      const ctx = canvas.getContext('2d');
-      let particles = [];
-      let mouse = { x: null, y: null, radius: 150 };
-      const colors = ['#2c5f4d', '#e67e22', '#3498db', '#95a5a6'];
-      
-      function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-      
-      class Particle {
-        constructor() {
-          this.x = Math.random() * canvas.width;
-          this.y = Math.random() * canvas.height;
-          this.size = Math.random() * 2 + 1;
-          this.speedX = (Math.random() - 0.5) * 0.5;
-          this.speedY = (Math.random() - 0.5) * 0.5;
-          this.color = colors[Math.floor(Math.random() * colors.length)];
-          this.originalSize = this.size;
-        }
-        update() {
-          if(mouse.x && mouse.y) {
-            const dx = mouse.x - this.x, dy = mouse.y - this.y;
-            const distance = Math.sqrt(dx * dx + dy * dy);
-            if(distance < mouse.radius) {
-              const force = (mouse.radius - distance) / mouse.radius;
-              this.size = this.originalSize + force * 2;
-              this.x += dx * 0.01 * force; this.y += dy * 0.01 * force;
-            } else this.size = this.originalSize;
-          }
-          if(this.x < 0 || this.x > canvas.width) this.speedX *= -1;
-          if(this.y < 0 || this.y > canvas.height) this.speedY *= -1;
-          this.x += this.speedX; this.y += this.speedY;
-        }
-        draw() {
-          ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-          ctx.fillStyle = this.color; ctx.fill();
-        }
-      }
-      
-      function init() {
-        resize(); particles = [];
-        const count = Math.min(80, Math.floor((canvas.width * canvas.height) / 15000));
-        for(let i = 0; i < count; i++) particles.push(new Particle());
-      }
-      
-      function connect() {
-        for(let a = 0; a < particles.length; a++) {
-          for(let b = a; b < particles.length; b++) {
-            const dx = particles[a].x - particles[b].x, dy = particles[a].y - particles[b].y;
-            const distance = Math.sqrt(dx * dx + dy * dy);
-            if(distance < 120) {
-              ctx.beginPath();
-              ctx.strokeStyle = `rgba(44,95,77,${0.15 - distance/800})`;
-              ctx.lineWidth = 0.5;
-              ctx.moveTo(particles[a].x, particles[a].y);
-              ctx.lineTo(particles[b].x, particles[b].y);
-              ctx.stroke();
-            }
-          }
-          if(mouse.x && mouse.y) {
-            const dx = particles[a].x - mouse.x, dy = particles[a].y - mouse.y;
-            const distance = Math.sqrt(dx * dx + dy * dy);
-            if(distance < mouse.radius) {
-              ctx.beginPath();
-              ctx.strokeStyle = `rgba(230,126,34,${0.3 - distance/500})`;
-              ctx.lineWidth = 0.8;
-              ctx.moveTo(particles[a].x, particles[a].y);
-              ctx.lineTo(mouse.x, mouse.y);
-              ctx.stroke();
-            }
-          }
-        }
-      }
-      
-      function animate() {
-        ctx.clearRect(0,0,canvas.width,canvas.height);
-        for(let p of particles) { p.update(); p.draw(); }
-        connect(); requestAnimationFrame(animate);
-      }
-      
-      window.addEventListener('resize', () => { resize(); init(); });
-      window.addEventListener('mousemove', e => { mouse.x = e.x; mouse.y = e.y; });
-      window.addEventListener('mouseout', () => { mouse.x = null; mouse.y = null; });
-      window.addEventListener('touchmove', e => { if(e.touches[0]) { mouse.x = e.touches[0].clientX; mouse.y = e.touches[0].clientY; }});
-      
-      init(); animate();
-    })();
-  </script>
+  <!-- 🌟 PARTICLE BACKGROUND CANVAS -->
+  <canvas id="particle-canvas" aria-hidden="true"></canvas>
 
-  <!-- Header will load here -->
-  <div id="header"></div>
+  <!-- Dynamic Header -->
+  <div id="header-placeholder"></div>
 
-  <!-- 🎯 MAIN CONTENT: DINING PAGE -->
+  <!-- 🎯 MAIN CONTENT -->
   <main>
-    <section class="page-header">
+    
+    <!-- Page Hero -->
+    <section class="page-hero">
       <div class="container">
-        <h1>Dining at Kadongo</h1>
-        <p>Farm-to-table cuisine, lakeside sunsets, and authentic Luo flavors crafted for your pleasure.</p>
+        <h1 class="scroll-reveal">Dining at Kadongo</h1>
+        <p class="scroll-reveal delay-1">Farm-to-table cuisine, lakeside sunsets, and authentic Luo flavors crafted for your pleasure.</p>
       </div>
     </section>
     
-    <!-- 🍽️ Restaurants -->
+    <!-- Dining Venues -->
     <section class="container">
-      <div class="restaurants-grid">
+      <div class="venues-grid">
         
-        <!-- Ziwa Restaurant -->
-        <div class="restaurant-card">
-          <div class="restaurant-image" style="background-image:url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=800&q=80')">
-            <span class="restaurant-badge">Signature</span>
-          </div>
-          <div class="restaurant-content">
+        <div class="venue-card card-hover scroll-reveal delay-1">
+          <div class="venue-badge">Signature</div>
+          <div class="venue-image" style="background-image:url('https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=800&q=80')"></div>
+          <div class="venue-content">
             <h3>Ziwa Restaurant</h3>
-            <div class="restaurant-meta">
+            <div class="venue-tags">
               <span>🍽️ Farm-to-Table</span>
               <span>🌅 Lakeside Views</span>
             </div>
             <p>Our flagship restaurant serves contemporary African cuisine featuring fresh Nile Perch, organic garden produce, and traditional Luo dishes reimagined for the modern palate.</p>
-            <p><strong>Chef's Special:</strong> Grilled Tilapia with Sukuma Wiki & Ugali, finished with tamarind glaze.</p>
-            <a href="#reserve" class="btn-reserve" onclick="openReservation('Ziwa Restaurant')">Reserve a Table</a>
+            <p class="chef-special"><strong>Chef's Special:</strong> Grilled Tilapia with Sukuma Wiki & Ugali, finished with tamarind glaze.</p>
+            <a href="#reserve" class="btn-primary">Reserve a Table</a>
           </div>
         </div>
         
-        <!-- Sunset Bar -->
-        <div class="restaurant-card">
-          <div class="restaurant-image" style="background-image:url('https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=800&q=80')">
-            <span class="restaurant-badge">Open 4PM</span>
-          </div>
-          <div class="restaurant-content">
+        <div class="venue-card card-hover scroll-reveal delay-2">
+          <div class="venue-badge">Open 4PM</div>
+          <div class="venue-image" style="background-image:url('https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=800&q=80')"></div>
+          <div class="venue-content">
             <h3>Sunset Bar</h3>
-            <div class="restaurant-meta">
+            <div class="venue-tags">
               <span>🍹 Craft Cocktails</span>
               <span>🎵 Live Music</span>
             </div>
             <p>Watch the sun dip below Lake Victoria while sipping handcrafted cocktails, local wines, and artisanal beers. Live acoustic performances Thursday-Saturday evenings.</p>
-            <p><strong>Must-Try:</strong> "Mfangano Sunset" — local gin, passion fruit, hibiscus, and a hint of chili.</p>
-            <a href="#reserve" class="btn-reserve" onclick="openReservation('Sunset Bar')">Book a Spot</a>
+            <p class="chef-special"><strong>Must-Try:</strong> "Mfangano Sunset" — local gin, passion fruit, hibiscus, and a hint of chili.</p>
+            <a href="#reserve" class="btn-primary">Book a Spot</a>
           </div>
         </div>
         
-        <!-- Private Dining -->
-        <div class="restaurant-card">
-          <div class="restaurant-image" style="background-image:url('https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=800&q=80')">
-            <span class="restaurant-badge">By Request</span>
-          </div>
-          <div class="restaurant-content">
+        <div class="venue-card card-hover scroll-reveal delay-3">
+          <div class="venue-badge">By Request</div>
+          <div class="venue-image" style="background-image:url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=80')"></div>
+          <div class="venue-content">
             <h3>Private Dining</h3>
-            <div class="restaurant-meta">
+            <div class="venue-tags">
               <span>🕯️ Romantic</span>
               <span>👨‍👩‍👧‍👦 Groups</span>
             </div>
             <p>Celebrate special moments with bespoke dining experiences: beachside dinners under the stars, garden picnics, or intimate chef's table sessions in our wine cellar.</p>
-            <p><strong>Includes:</strong> Personalized menu, dedicated server, and custom décor.</p>
-            <a href="#reserve" class="btn-reserve" onclick="openReservation('Private Dining')">Arrange Experience</a>
+            <p class="chef-special"><strong>Includes:</strong> Personalized menu, dedicated server, and custom décor.</p>
+            <a href="#reserve" class="btn-primary">Arrange Experience</a>
           </div>
         </div>
         
       </div>
     </section>
     
-    <!-- 🕒 Operating Hours -->
-    <section class="hours-section">
+    <!-- Opening Hours -->
+    <section class="hours-bg">
       <div class="container">
-        <div class="section-header" style="text-align:center;margin-bottom:40px">
-          <h2 style="font-size:2rem;color:var(--primary)">Opening Hours</h2>
+        <div class="section-header scroll-reveal">
+          <h2>Opening Hours</h2>
+          <p>Plan your dining experience with our convenient schedules.</p>
         </div>
         <div class="hours-grid">
-          <div class="hours-card">
-            <h4>🍽️ Ziwa Restaurant</h4>
-            <div class="schedule">
-              <div><strong>Breakfast:</strong> 7:00 AM - 10:30 AM</div>
-              <div><strong>Lunch:</strong> 12:30 PM - 3:00 PM</div>
-              <div><strong>Dinner:</strong> 7:00 PM - 10:00 PM</div>
-              <div style="margin-top:10px;color:var(--accent);font-weight:600">🌙 Late-night room service available</div>
-            </div>
+          <div class="hours-card card-hover scroll-reveal delay-1">
+            <h3>🍽️ Ziwa Restaurant</h3>
+            <ul>
+              <li><span>🍳</span> Breakfast: 7:00 AM - 10:30 AM</li>
+              <li><span>🥗</span> Lunch: 12:30 PM - 3:00 PM</li>
+              <li><span>🍽️</span> Dinner: 7:00 PM - 10:00 PM</li>
+              <li><span>🌙</span> Late-night room service available</li>
+            </ul>
           </div>
-          <div class="hours-card">
-            <h4>🍹 Sunset Bar</h4>
-            <div class="schedule">
-              <div><strong>Open Daily:</strong> 4:00 PM - 12:00 AM</div>
-              <div><strong>Happy Hour:</strong> 4:00 PM - 6:00 PM</div>
-              <div><strong>Live Music:</strong> Thu-Sat, 7:00 PM</div>
-              <div style="margin-top:10px;color:var(--accent);font-weight:600">🎶 Acoustic sets by local artists</div>
-            </div>
+          <div class="hours-card card-hover scroll-reveal delay-2">
+            <h3>🍹 Sunset Bar</h3>
+            <ul>
+              <li><span>🕐</span> Open Daily: 4:00 PM - 12:00 AM</li>
+              <li><span>🍸</span> Happy Hour: 4:00 PM - 6:00 PM</li>
+              <li><span>🎶</span> Live Music: Thu-Sat, 7:00 PM</li>
+              <li><span>🎵</span> Acoustic sets by local artists</li>
+            </ul>
           </div>
-          <div class="hours-card">
-            <h4>🧺 In-Room Dining</h4>
-            <div class="schedule">
-              <div><strong>Breakfast:</strong> 6:30 AM - 11:00 AM</div>
-              <div><strong>All Day:</strong> 11:00 AM - 10:00 PM</div>
-              <div><strong>Late Night:</strong> 10:00 PM - 2:00 AM</div>
-              <div style="margin-top:10px;color:var(--accent);font-weight:600">📞 Dial "0" from your room</div>
-            </div>
+          <div class="hours-card card-hover scroll-reveal delay-3">
+            <h3>🧺 In-Room Dining</h3>
+            <ul>
+              <li><span>🍳</span> Breakfast: 6:30 AM - 11:00 AM</li>
+              <li><span>🕐</span> All Day: 11:00 AM - 10:00 PM</li>
+              <li><span>🌙</span> Late Night: 10:00 PM - 2:00 AM</li>
+              <li><span>📞</span> Dial "0" from your room</li>
+            </ul>
           </div>
         </div>
       </div>
     </section>
     
-    <!-- 📋 Menu Preview -->
-    <section class="container menu-preview">
-      <div class="section-header" style="text-align:center;margin-bottom:30px">
-        <h2 style="font-size:2rem;color:var(--primary)">Menu Highlights</h2>
-        <p style="color:#666;max-width:600px;margin:0 auto">A taste of what awaits. Full menus available at each venue.</p>
+    <!-- Menu Highlights -->
+    <section class="container">
+      <div class="section-header scroll-reveal">
+        <h2>Menu Highlights</h2>
+        <p>A taste of what awaits. Full menus available at each venue.</p>
       </div>
-      
-      <div class="menu-tabs">
-        <button class="menu-tab active" data-menu="starters">Starters</button>
-        <button class="menu-tab" data-menu="mains">Main Courses</button>
-        <button class="menu-tab" data-menu="desserts">Desserts</button>
-        <button class="menu-tab" data-menu="drinks">Drinks</button>
+      <div class="menu-tabs scroll-reveal">
+        <button class="tab-btn active" data-tab="starters">Starters</button>
+        <button class="tab-btn" data-tab="mains">Main Courses</button>
+        <button class="tab-btn" data-tab="desserts">Desserts</button>
+        <button class="tab-btn" data-tab="drinks">Drinks</button>
       </div>
-      
-      <div class="menu-items" id="menuContainer">
-        <!-- Starters (default) -->
-        <div class="menu-item" data-category="starters">
-          <div class="menu-item-image" style="background-image:url('https://images.unsplash.com/photo-1547592164-6f5894232488?auto=format&fit=crop&w=400&q=80')"></div>
-          <div class="menu-item-content">
-            <h4>Grilled Octopus</h4>
-            <div class="price">$18</div>
+      <div class="menu-content">
+        <div class="tab-panel active" id="starters">
+          <div class="menu-item card-hover">
+            <div class="menu-item-header">
+              <h4>Grilled Octopus</h4>
+              <span class="menu-price">$18</span>
+            </div>
             <p>Lake Victoria octopus, chili-lime marinade, roasted sweet potato, coconut slaw.</p>
           </div>
-        </div>
-        <div class="menu-item" data-category="starters">
-          <div class="menu-item-image" style="background-image:url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=400&q=80')"></div>
-          <div class="menu-item-content">
-            <h4>Garden Salad</h4>
-            <div class="price">$14</div>
+          <div class="menu-item card-hover">
+            <div class="menu-item-header">
+              <h4>Garden Salad</h4>
+              <span class="menu-price">$14</span>
+            </div>
             <p>Organic greens from our farm, avocado, goat cheese, hibiscus vinaigrette.</p>
           </div>
-        </div>
-        <div class="menu-item" data-category="starters">
-          <div class="menu-item-image" style="background-image:url('https://images.unsplash.com/photo-1603133872878-684f208fb84b?auto=format&fit=crop&w=400&q=80')"></div>
-          <div class="menu-item-content">
-            <h4>Samosa Platter</h4>
-            <div class="price">$12</div>
+          <div class="menu-item card-hover">
+            <div class="menu-item-header">
+              <h4>Samosa Platter</h4>
+              <span class="menu-price">$12</span>
+            </div>
             <p>Crispy Luo-style samosas, tamarind chutney, mango salsa. (V)</p>
           </div>
         </div>
-        
-        <!-- Mains (hidden by default) -->
-        <div class="menu-item" data-category="mains" style="display:none">
-          <div class="menu-item-image" style="background-image:url('https://images.unsplash.com/photo-1519708227418-c8fd9fef83c5?auto=format&fit=crop&w=400&q=80')"></div>
-          <div class="menu-item-content">
-            <h4>Nile Perch Fillet</h4>
-            <div class="price">$32</div>
+        <div class="tab-panel" id="mains">
+          <div class="menu-item card-hover">
+            <div class="menu-item-header">
+              <h4>Nile Perch Fillet</h4>
+              <span class="menu-price">$32</span>
+            </div>
             <p>Pan-seared perch, lemon-herb butter, seasonal vegetables, ugali croquette.</p>
           </div>
-        </div>
-        <div class="menu-item" data-category="mains" style="display:none">
-          <div class="menu-item-image" style="background-image:url('https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=400&q=80')"></div>
-          <div class="menu-item-content">
-            <h4>Grilled Ribeye</h4>
-            <div class="price">$38</div>
+          <div class="menu-item card-hover">
+            <div class="menu-item-header">
+              <h4>Grilled Ribeye</h4>
+              <span class="menu-price">$38</span>
+            </div>
             <p>28-day aged beef, rosemary jus, truffle mash, grilled asparagus.</p>
           </div>
-        </div>
-        <div class="menu-item" data-category="mains" style="display:none">
-          <div class="menu-item-image" style="background-image:url('https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=400&q=80')"></div>
-          <div class="menu-item-content">
-            <h4>Vegetable Tagine</h4>
-            <div class="price">$24</div>
+          <div class="menu-item card-hover">
+            <div class="menu-item-header">
+              <h4>Vegetable Tagine</h4>
+              <span class="menu-price">$24</span>
+            </div>
             <p>Slow-cooked seasonal vegetables, apricot, almonds, couscous. (V) (GF)</p>
           </div>
         </div>
-        
-        <!-- Desserts (hidden) -->
-        <div class="menu-item" data-category="desserts" style="display:none">
-          <div class="menu-item-image" style="background-image:url('https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&w=400&q=80')"></div>
-          <div class="menu-item-content">
-            <h4>Passion Fruit Tart</h4>
-            <div class="price">$14</div>
+        <div class="tab-panel" id="desserts">
+          <div class="menu-item card-hover">
+            <div class="menu-item-header">
+              <h4>Passion Fruit Tart</h4>
+              <span class="menu-price">$14</span>
+            </div>
             <p>Tangy passion curd, coconut cream, shortbread base, edible flowers.</p>
           </div>
-        </div>
-        <div class="menu-item" data-category="desserts" style="display:none">
-          <div class="menu-item-image" style="background-image:url('https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&w=400&q=80')"></div>
-          <div class="menu-item-content">
-            <h4>Chocolate Lava Cake</h4>
-            <div class="price">$16</div>
+          <div class="menu-item card-hover">
+            <div class="menu-item-header">
+              <h4>Chocolate Lava Cake</h4>
+              <span class="menu-price">$16</span>
+            </div>
             <p>Warm dark chocolate center, vanilla bean ice cream, berry compote.</p>
           </div>
         </div>
-        
-        <!-- Drinks (hidden) -->
-        <div class="menu-item" data-category="drinks" style="display:none">
-          <div class="menu-item-image" style="background-image:url('https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=400&q=80')"></div>
-          <div class="menu-item-content">
-            <h4>Mfangano Sunset</h4>
-            <div class="price">$15</div>
+        <div class="tab-panel" id="drinks">
+          <div class="menu-item card-hover">
+            <div class="menu-item-header">
+              <h4>Mfangano Sunset</h4>
+              <span class="menu-price">$15</span>
+            </div>
             <p>Local gin, passion fruit, hibiscus syrup, lime, chili rim. 🍸</p>
           </div>
-        </div>
-        <div class="menu-item" data-category="drinks" style="display:none">
-          <div class="menu-item-image" style="background-image:url('https://images.unsplash.com/photo-1544148103-0c73f59a7d67?auto=format&fit=crop&w=400&q=80')"></div>
-          <div class="menu-item-content">
-            <h4>Lake Victoria Lager</h4>
-            <div class="price">$8</div>
+          <div class="menu-item card-hover">
+            <div class="menu-item-header">
+              <h4>Lake Victoria Lager</h4>
+              <span class="menu-price">$8</span>
+            </div>
             <p>Crisp local craft beer, brewed with lake water. 🍺</p>
           </div>
         </div>
       </div>
-      
-      <div style="text-align:center;margin-top:30px">
-        <a href="#" class="btn-reserve" style="background:var(--accent)" onclick="showToast('📄 Full PDF menus available at reception or via email request.','info')">View Full Menus</a>
+      <div class="scroll-reveal" style="text-align:center;margin-top:30px;">
+        <a href="#" class="btn-link">View Full Menus →</a>
       </div>
     </section>
     
-    <!-- 🎁 Private Dining CTA -->
+    <!-- Special Experiences -->
+    <section class="experiences-bg">
+      <div class="container">
+        <div class="section-header scroll-reveal">
+          <h2>✨ Create Your Perfect Dining Moment</h2>
+          <p>From romantic beach dinners to family celebrations, our culinary team crafts bespoke experiences tailored to your vision. Let us handle every detail.</p>
+        </div>
+        <div class="scroll-reveal" style="text-align:center;">
+          <a href="booking.html?request=dining" class="btn-hero">Plan Your Experience</a>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Dietary Info -->
     <section class="container">
-      <div class="private-dining">
-        <h3>✨ Create Your Perfect Dining Moment</h3>
-        <p>From romantic beach dinners to family celebrations, our culinary team crafts bespoke experiences tailored to your vision. Let us handle every detail.</p>
-        <a href="booking.html?request=dining" class="btn-private">Plan Your Experience</a>
-        <p style="margin-top:15px;font-size:0.9rem;opacity:0.8">📧 Email: dining@kadongoresort.com • 📞 +254 7XX XXX XXX</p>
+      <div class="dietary-info scroll-reveal">
+        <h3>Dietary Requirements?</h3>
+        <p>We gladly accommodate vegetarian, vegan, gluten-free, halal, and allergy-specific requests. Please inform us at time of reservation.</p>
+        <a href="contact.html" class="btn-link">Contact Our Culinary Team →</a>
       </div>
     </section>
     
-    <!-- 📬 Dietary Requests -->
-    <section class="container" style="padding:40px 0;text-align:center">
-      <div style="background:#fff;padding:30px;border-radius:var(--radius);box-shadow:var(--shadow);max-width:700px;margin:0 auto">
-        <h3 style="color:var(--primary);margin:0 0 15px">Dietary Requirements?</h3>
-        <p style="color:#555;margin:0 0 20px">We gladly accommodate vegetarian, vegan, gluten-free, halal, and allergy-specific requests. Please inform us at time of reservation.</p>
-        <a href="contact.html" style="color:var(--accent);font-weight:600">Contact Our Culinary Team →</a>
+    <!-- Final CTA -->
+    <section class="final-cta-dining">
+      <div class="container">
+        <h2 class="scroll-reveal">Ready to Savor Paradise?</h2>
+        <p class="scroll-reveal delay-1">Every meal at Kadongo Resort is a celebration of local flavors and lakeside beauty.</p>
+        <a href="booking.html" class="btn-hero scroll-reveal delay-2">Reserve Your Table</a>
+        <p class="contact-note scroll-reveal delay-3">📧 dining@kadongoresort.com • 📞 +254 7XX XXX XXX</p>
       </div>
     </section>
     
   </main>
 
-  <!-- Footer will load here -->
-  <div id="footer"></div>
+  <!-- Dynamic Footer -->
+  <div id="footer-placeholder"></div>
 
-  <!-- 🔽 INLINE JS: HEADER/FOOTER LOADING + PAGE INTERACTIONS 🔽 -->
+  <!-- Main Script Loader -->
+  <script src="script.js"></script>
+
+  <!-- Page-Specific JavaScript & CSS -->
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       
-      // ===== LOAD HEADER & FOOTER VIA FETCH =====
-      Promise.all([
-        fetch("header.html").then(res => res.ok ? res.text() : '<header><div class="container"><p style="color:#e74c3c">⚠️ header.html not found</p></div></header>'),
-        fetch("footer.html").then(res => res.ok ? res.text() : '<footer><div class="container"><p style="color:#e74c3c">⚠️ footer.html not found</p></div></footer>')
-      ])
-      .then(([headerData, footerData]) => {
-        document.getElementById("header").innerHTML = headerData;
-        document.getElementById("footer").innerHTML = footerData;
-        if(typeof highlightActiveLink === 'function') highlightActiveLink();
-      })
-      .catch(err => {
-        console.error('Error loading components:', err);
-        document.getElementById("header").innerHTML = '<header><div class="container"><p style="color:#e74c3c">⚠️ Could not load header</p></div></header>';
-        document.getElementById("footer").innerHTML = '<footer><div class="container"><p style="color:#e74c3c">⚠️ Could not load footer</p></div></footer>';
-      });
+      // ===== SCROLL REVEAL ANIMATIONS =====
+      function initScrollAnimations() {
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+        document.querySelectorAll('.scroll-reveal').forEach(el => observer.observe(el));
+      }
       
       // ===== MENU TABS FUNCTIONALITY =====
-      document.querySelectorAll('.menu-tab').forEach(tab => {
-        tab.addEventListener('click', function() {
-          // Update active tab
-          document.querySelectorAll('.menu-tab').forEach(t => t.classList.remove('active'));
-          this.classList.add('active');
-          
-          // Show/hide menu items
-          const category = this.dataset.menu;
-          document.querySelectorAll('.menu-item').forEach(item => {
-            item.style.display = (item.dataset.category === category) ? 'flex' : 'none';
+      function initMenuTabs() {
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabPanels = document.querySelectorAll('.tab-panel');
+        
+        tabBtns.forEach(btn => {
+          btn.addEventListener('click', function() {
+            tabBtns.forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            
+            const tabId = this.dataset.tab;
+            tabPanels.forEach(panel => {
+              panel.classList.toggle('active', panel.id === tabId);
+            });
           });
         });
-      });
-      
-      // ===== RESERVATION MODAL (Demo) =====
-      window.openReservation = function(venue) {
-        showToast(`🍽️ Opening reservation form for ${venue}... (Connect to booking system)`, 'info');
-        // In production: window.location.href = `booking.html?dining=${encodeURIComponent(venue)}`;
       }
       
-      // ===== TOAST NOTIFICATIONS =====
-      window.showToast = function(message, type = 'info') {
-        const toast = document.createElement('div');
-        const colors = { info: '#3498db', success: '#27ae60', error: '#e74c3c' };
+      // ===== PARTICLE NETWORK ANIMATION =====
+      (function initParticles() {
+        const canvas = document.getElementById('particle-canvas');
+        if (!canvas || !canvas.getContext) return;
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let mouse = { x: null, y: null, radius: 180 };
+        let animationFrameId;
+        const lightColors = ['#2c5f4d', '#e67e22', '#3498db', '#95a5a6'];
+        const darkColors = ['#4dd0e1', '#ff9800', '#81d4fa', '#bdbdbd'];
         
-        toast.textContent = message;
-        toast.style.cssText = `
-          position:fixed;bottom:25px;right:25px;
-          background:${colors[type]};color:#fff;
-          padding:16px 24px;border-radius:10px;
-          box-shadow:0 5px 25px rgba(0,0,0,0.2);
-          z-index:9999;font-weight:500;font-size:0.95rem;
-          max-width:350px;
-          animation:slideIn 0.3s ease, fadeOut 0.5s 3s ease forwards;
-        `;
-        document.body.appendChild(toast);
+        function getThemeColors() {
+          return document.documentElement.getAttribute('data-theme') === 'dark' ? darkColors : lightColors;
+        }
+        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
         
-        if(!document.getElementById('toast-animations')) {
-          const style = document.createElement('style');
-          style.id = 'toast-animations';
-          style.textContent = `
-            @keyframes slideIn { from{transform:translateX(100%);opacity:0} to{transform:translateX(0);opacity:1} }
-            @keyframes fadeOut { from{opacity:1} to{opacity:0} }
-          `;
-          document.head.appendChild(style);
+        class Particle {
+          constructor() { this.reset(); }
+          reset() {
+            this.x = Math.random() * canvas.width;
+            this.y = Math.random() * canvas.height;
+            this.size = Math.random() * 2.5 + 1;
+            this.originalSize = this.size;
+            this.speedX = (Math.random() - 0.5) * 0.6;
+            this.speedY = (Math.random() - 0.5) * 0.6;
+            this.color = getThemeColors()[Math.floor(Math.random() * getThemeColors().length)];
+            this.opacity = Math.random() * 0.4 + 0.3;
+          }
+          update() {
+            if (mouse.x !== null && mouse.y !== null) {
+              const dx = mouse.x - this.x, dy = mouse.y - this.y, distance = Math.sqrt(dx*dx + dy*dy);
+              if (distance < mouse.radius) {
+                const force = (mouse.radius - distance) / mouse.radius;
+                this.x += dx * 0.02 * force; this.y += dy * 0.02 * force;
+                this.size = this.originalSize + force * 2.5;
+              } else if (this.size > this.originalSize) { this.size -= 0.05; }
+            }
+            if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+            if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+            this.x += this.speedX; this.y += this.speedY;
+          }
+          draw() {
+            ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx.fillStyle = this.color; ctx.globalAlpha = this.opacity; ctx.fill(); ctx.globalAlpha = 1;
+          }
         }
         
-        setTimeout(() => toast.remove(), 3500);
-      }
+        function init() {
+          resize(); particles = [];
+          const count = Math.min(80, Math.floor((canvas.width * canvas.height) / 18000));
+          for (let i = 0; i < count; i++) particles.push(new Particle());
+        }
+        function connect() {
+          const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+          const baseColor = isDark ? 'rgba(77, 208, 225,' : 'rgba(44, 95, 77,';
+          const mouseColor = isDark ? 'rgba(255, 152, 0,' : 'rgba(230, 126, 34,';
+          for (let a = 0; a < particles.length; a++) {
+            for (let b = a + 1; b < particles.length; b++) {
+              const dx = particles[a].x - particles[b].x, dy = particles[a].y - particles[b].y, distance = Math.sqrt(dx*dx + dy*dy);
+              if (distance < 130) {
+                const opacity = 0.18 - (distance / 130) * 0.12;
+                ctx.beginPath(); ctx.strokeStyle = baseColor + opacity + ')';
+                ctx.lineWidth = 0.6;
+                ctx.moveTo(particles[a].x, particles[a].y); ctx.lineTo(particles[b].x, particles[b].y); ctx.stroke();
+              }
+            }
+            if (mouse.x !== null && mouse.y !== null) {
+              const dx = particles[a].x - mouse.x, dy = particles[a].y - mouse.y, distance = Math.sqrt(dx*dx + dy*dy);
+              if (distance < mouse.radius) {
+                const opacity = 0.35 - (distance / mouse.radius) * 0.25;
+                ctx.beginPath(); ctx.strokeStyle = mouseColor + opacity + ')';
+                ctx.lineWidth = 1;
+                ctx.moveTo(particles[a].x, particles[a].y); ctx.lineTo(mouse.x, mouse.y); ctx.stroke();
+              }
+            }
+          }
+        }
+        function animate() {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          for (const p of particles) { p.update(); p.draw(); }
+          connect(); animationFrameId = requestAnimationFrame(animate);
+        }
+        window.addEventListener('resize', () => { resize(); init(); }, { passive: true });
+        window.addEventListener('mousemove', (e) => { mouse.x = e.clientX; mouse.y = e.clientY; }, { passive: true });
+        window.addEventListener('touchmove', (e) => { if (e.touches[0]) { mouse.x = e.touches[0].clientX; mouse.y = e.touches[0].clientY; }}, { passive: true });
+        window.addEventListener('mouseout', () => { mouse.x = null; mouse.y = null; });
+        const themeObserver = new MutationObserver(() => {
+          particles.forEach(p => p.color = getThemeColors()[Math.floor(Math.random() * getThemeColors().length)]);
+        });
+        themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+        document.addEventListener('visibilitychange', () => { if (document.hidden) cancelAnimationFrame(animationFrameId); else animate(); });
+        init(); animate();
+      })();
       
-    }); // End DOMContentLoaded
+      // ===== INITIALIZE =====
+      initScrollAnimations();
+      initMenuTabs();
+      setTimeout(() => { if (typeof highlightActiveLink === 'function') highlightActiveLink(); }, 200);
+    });
   </script>
+  
+  <style>
+    /* ===== BASE VARIABLES ===== */
+    :root {
+      --primary: #2c5f4d; --accent: #e67e22; --accent-hover: #d35400;
+      --dark: #1a252f; --light: #f8f9fa;
+      --shadow: 0 4px 20px rgba(0,0,0,0.08); --shadow-hover: 0 8px 30px rgba(0,0,0,0.12);
+      --radius: 12px;
+      --bg-body: #fff; --bg-section: #f8f9fa; --text-main: #333; --text-muted: #666; --card-bg: #fff;
+      --particle-bg-start: #f8f9fa; --particle-bg-end: #e8f4f8; --input-border: #e0e0e0;
+    }
+    [data-theme="dark"] {
+      --bg-body: #121212; --bg-section: #1e1e1e; --text-main: #e0e0e0; --text-muted: #b0b0b0; --card-bg: #1e1e1e;
+      --shadow: 0 4px 20px rgba(0,0,0,0.3); --particle-bg-start: #1a252f; --particle-bg-end: #2c3e50; --input-border: #444;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6; color: var(--text-main); background: var(--bg-body);
+      overflow-x: hidden; transition: background-color 0.3s, color 0.3s;
+    }
+    a { text-decoration: none; color: inherit; transition: color 0.3s; }
+    img { max-width: 100%; display: block; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; position: relative; z-index: 2; }
+    
+    /* ===== SCROLL ANIMATIONS ===== */
+    .scroll-reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .scroll-reveal.visible { opacity: 1; transform: translateY(0); }
+    .scroll-reveal.delay-1 { transition-delay: 0.1s; }
+    .scroll-reveal.delay-2 { transition-delay: 0.2s; }
+    .scroll-reveal.delay-3 { transition-delay: 0.3s; }
+    .card-hover { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+    .card-hover:hover { transform: translateY(-8px); box-shadow: var(--shadow-hover); }
+    
+    /* ===== PAGE HERO ===== */
+    .page-hero {
+      background: linear-gradient(135deg, rgba(44,95,77,0.9), rgba(26,37,47,0.85)),
+                  url('https://images.unsplash.com/photo-1540541338287-41700207dee6?auto=format&fit=crop&w=1920&q=80') center/cover;
+      padding: 120px 0 80px; text-align: center; color: #fff;
+    }
+    .page-hero h1 {
+      font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; margin-bottom: 1rem;
+      text-shadow: 0 2px 15px rgba(0,0,0,0.4);
+    }
+    .page-hero p {
+      font-size: 1.2rem; opacity: 0.95; max-width: 600px; margin: 0 auto;
+    }
+    
+    /* ===== VENUES GRID ===== */
+    .venues-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px; padding: 40px 0;
+    }
+    .venue-card {
+      background: var(--card-bg); border-radius: var(--radius);
+      overflow: hidden; box-shadow: var(--shadow); position: relative;
+    }
+    .venue-badge {
+      position: absolute; top: 15px; left: 15px;
+      background: var(--accent); color: #fff; padding: 6px 12px;
+      border-radius: 20px; font-size: 0.8rem; font-weight: 600; z-index: 2;
+    }
+    .venue-image {
+      height: 220px; background: #ddd center/cover no-repeat;
+    }
+    .venue-content { padding: 25px; }
+    .venue-content h3 {
+      color: var(--primary); font-size: 1.4rem; margin-bottom: 10px;
+    }
+    .venue-tags {
+      display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 15px;
+    }
+    .venue-tags span {
+      background: var(--bg-section); padding: 5px 10px; border-radius: 15px;
+      font-size: 0.85rem; color: var(--text-muted);
+    }
+    .venue-content p { color: var(--text-muted); margin: 12px 0; line-height: 1.6; }
+    .chef-special {
+      background: rgba(230, 126, 34, 0.1); padding: 12px; border-radius: 8px;
+      border-left: 3px solid var(--accent); margin: 15px 0;
+    }
+    .btn-primary {
+      display: inline-block; background: var(--primary); color: #fff;
+      padding: 12px 25px; border-radius: 8px; font-weight: 600;
+      transition: background 0.3s; text-decoration: none;
+    }
+    .btn-primary:hover { background: #234d3e; }
+    
+    /* ===== HOURS SECTION ===== */
+    .hours-bg { background: var(--bg-section); padding: 60px 0; }
+    .section-header {
+      text-align: center; margin-bottom: 40px;
+    }
+    .section-header h2 {
+      font-size: 2rem; color: var(--primary); margin-bottom: 1rem; font-weight: 700;
+    }
+    .section-header p {
+      color: var(--text-muted); max-width: 600px; margin: 0 auto; font-size: 1.1rem;
+    }
+    .hours-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+    }
+    .hours-card {
+      background: var(--card-bg); padding: 25px; border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+    .hours-card h3 {
+      color: var(--primary); margin-bottom: 15px; font-size: 1.2rem;
+    }
+    .hours-card ul { list-style: none; }
+    .hours-card li {
+      display: flex; align-items: center; gap: 10px; margin: 10px 0;
+      color: var(--text-muted);
+    }
+    .hours-card li span { font-size: 1.1rem; color: var(--accent); }
+    
+    /* ===== MENU TABS ===== */
+    .menu-tabs {
+      display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;
+      margin-bottom: 30px;
+    }
+    .tab-btn {
+      padding: 10px 25px; border: 2px solid var(--input-border);
+      border-radius: 30px; background: var(--card-bg); color: var(--text-main);
+      font-weight: 500; cursor: pointer; transition: all 0.3s;
+    }
+    .tab-btn:hover, .tab-btn.active {
+      border-color: var(--accent); background: var(--accent); color: #fff;
+    }
+    .menu-content { max-width: 800px; margin: 0 auto; }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; animation: fadeIn 0.3s ease; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    .menu-item {
+      background: var(--card-bg); padding: 20px; border-radius: var(--radius);
+      box-shadow: var(--shadow); margin-bottom: 15px;
+    }
+    .menu-item-header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 10px;
+    }
+    .menu-item-header h4 { color: var(--primary); font-size: 1.1rem; }
+    .menu-price { color: var(--accent); font-weight: 700; font-size: 1.1rem; }
+    .menu-item p { color: var(--text-muted); font-size: 0.95rem; }
+    .btn-link {
+      color: var(--accent); font-weight: 600; display: inline-flex;
+      align-items: center; gap: 6px;
+    }
+    .btn-link:hover { gap: 10px; }
+    
+    /* ===== EXPERIENCES SECTION ===== */
+    .experiences-bg {
+      background: linear-gradient(135deg, var(--primary), #1a3a32);
+      color: #fff; padding: 70px 0; text-align: center;
+    }
+    .experiences-bg .section-header h2 { color: #fff; }
+    .experiences-bg .section-header p { color: rgba(255,255,255,0.9); }
+    .btn-hero {
+      background: #fff; color: var(--primary); padding: 16px 40px;
+      border-radius: 10px; font-weight: 700; font-size: 1.1rem;
+      transition: transform 0.3s; display: inline-block; text-decoration: none;
+    }
+    .btn-hero:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+    
+    /* ===== DIETARY INFO ===== */
+    .dietary-info {
+      background: var(--bg-section); padding: 30px; border-radius: var(--radius);
+      text-align: center; margin: 40px 0;
+    }
+    .dietary-info h3 { color: var(--primary); margin-bottom: 10px; }
+    .dietary-info p { color: var(--text-muted); margin-bottom: 15px; }
+    
+    /* ===== FINAL CTA ===== */
+    .final-cta-dining {
+      text-align: center; padding: 80px 0;
+      background: linear-gradient(135deg, rgba(44,95,77,0.95), rgba(26,37,47,0.9)),
+                  url('https://images.unsplash.com/photo-1520257328597-2c6d0e7f6f8e?auto=format&fit=crop&w=1920&q=80') center/cover;
+      color: #fff;
+    }
+    .final-cta-dining h2 {
+      font-size: clamp(1.8rem, 4vw, 2.5rem); margin-bottom: 1rem; font-weight: 700;
+    }
+    .final-cta-dining p {
+      font-size: 1.15rem; max-width: 600px; margin: 0 auto 2rem; opacity: 0.95;
+    }
+    .contact-note { font-size: 1rem; opacity: 0.9; }
+    
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      .page-hero { padding: 100px 0 60px; }
+      .page-hero h1 { font-size: 2.3rem; }
+      .venues-grid { grid-template-columns: 1fr; }
+      .hours-grid { grid-template-columns: 1fr; }
+      .menu-tabs { flex-wrap: wrap; }
+      .tab-btn { padding: 8px 18px; font-size: 0.9rem; }
+      .final-cta-dining h2 { font-size: 2rem; }
+      .final-cta-dining p { font-size: 1.05rem; }
+    }
+    @media (max-width: 480px) {
+      .page-hero h1 { font-size: 2rem; }
+      .btn-hero { width: 100%; padding: 14px; }
+      .menu-item-header { flex-direction: column; align-items: flex-start; gap: 5px; }
+    }
+    
+    /* ===== ACCESSIBILITY ===== */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important; transition-duration: 0.01ms !important;
+      }
+    }
+    a:focus-visible, button:focus-visible {
+      outline: 3px solid var(--accent); outline-offset: 2px; border-radius: 8px;
+    }
+  </style>
 </body>
 </html>
