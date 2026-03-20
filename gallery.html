@@ -1,499 +1,534 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="description" content="Explore the beauty of Kadongo Resort through our photo gallery. Lake views, luxury rooms, dining, and cultural experiences on Mfangano Island.">
+  <meta name="description" content="Photo Gallery — A visual journey through Kadongo Resort's rooms, dining, and the breathtaking beauty of Mfangano Island.">
   <title>Gallery | Kadongo Resort - Mfangano Island</title>
   
+  <!-- Critical: Particle canvas must not block header clicks -->
   <style>
-    /* ===== RESET & BASE ===== */
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      line-height: 1.6;
-      color: #333;
-      background: transparent;
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 20px;
-      position: relative;
-      z-index: 2;
-    }
-
-    /* ===== BRAND VARIABLES ===== */
-    :root {
-      --primary: #2c5f4d;
-      --accent: #e67e22;
-      --dark: #1a252f;
-      --light: #f8f9fa;
-      --radius: 12px;
-      --shadow: 0 4px 20px rgba(0,0,0,0.1);
-    }
-
-    /* ===== PAGE HEADER ===== */
-    .page-header {
-      background: linear-gradient(135deg, rgba(44,95,77,0.9), rgba(26,37,47,0.85)),
-                 url('https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1920&q=80') center/cover;
-      color: #fff;
-      padding: 100px 0 60px;
-      text-align: center;
-      position: relative;
-      z-index: 2;
-    }
-    .page-header h1 { font-size: 2.8rem; margin-bottom: 15px; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
-    .page-header p { font-size: 1.2rem; max-width: 700px; margin: 0 auto; opacity: 0.95; }
-
-    /* ===== FILTERS ===== */
-    .filter-container {
-      text-align: center;
-      padding: 40px 0;
-      position: relative;
-      z-index: 2;
-    }
-    .filter-btn {
-      padding: 10px 25px;
-      margin: 5px;
-      border: 2px solid var(--primary);
-      background: #fff;
-      color: var(--primary);
-      border-radius: 30px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: all 0.3s ease;
-    }
-    .filter-btn:hover, .filter-btn.active {
-      background: var(--primary);
-      color: #fff;
-      transform: translateY(-2px);
-    }
-
-    /* ===== GALLERY GRID ===== */
-    .gallery-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 20px;
-      padding-bottom: 60px;
-      position: relative;
-      z-index: 2;
-    }
-    
-    .gallery-item {
-      position: relative;
-      border-radius: var(--radius);
-      overflow: hidden;
-      height: 250px;
-      cursor: pointer;
-      box-shadow: var(--shadow);
-      transition: transform 0.3s ease;
-    }
-    
-    .gallery-item:hover {
-      transform: scale(1.03);
-      z-index: 3;
-    }
-
-    .gallery-item img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.5s ease;
-    }
-
-    .gallery-item:hover img {
-      transform: scale(1.1);
-    }
-
-    .overlay {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
-      padding: 20px;
-      color: #fff;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-      transform: translateY(10px);
-    }
-
-    .gallery-item:hover .overlay {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .overlay h3 { font-size: 1.1rem; margin-bottom: 5px; }
-    .overlay p { font-size: 0.9rem; opacity: 0.9; }
-
-    /* ===== LIGHTBOX (MODAL) ===== */
-    .lightbox {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.95);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 9999;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.3s ease;
-    }
-    
-    .lightbox.active {
-      opacity: 1;
-      pointer-events: all;
-    }
-
-    .lightbox img {
-      max-width: 90%;
-      max-height: 90%;
-      border-radius: 8px;
-      box-shadow: 0 0 30px rgba(0,0,0,0.5);
-      transform: scale(0.9);
-      transition: transform 0.3s ease;
-    }
-
-    .lightbox.active img {
-      transform: scale(1);
-    }
-
-    .lightbox-close {
-      position: absolute;
-      top: 30px;
-      right: 40px;
-      color: #fff;
-      font-size: 3rem;
-      cursor: pointer;
-      transition: color 0.3s;
-    }
-    .lightbox-close:hover { color: var(--accent); }
-
-    /* ===== RESPONSIVE ===== */
-    @media(max-width: 768px) {
-      .page-header h1 { font-size: 2.2rem; }
-      .gallery-grid { grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); }
-      .lightbox-close { top: 20px; right: 20px; font-size: 2.5rem; }
-    }
+    #particle-canvas { pointer-events: none !important; z-index: -1 !important; position: fixed; top: 0; left: 0; width: 100%; height: 100%; }
+    #header-placeholder { position: relative; z-index: 10000; }
+    #header-placeholder, #footer-placeholder { min-height: 80px; }
   </style>
 </head>
 <body>
 
-  <!-- 🔽 PARTICLE NETWORK BACKGROUND 🔽 -->
-  <style>
-    #particle-canvas{
-      position:fixed;
-      top:0;
-      left:0;
-      width:100%;
-      height:100%;
-      z-index:-1;
-      pointer-events:none;
-      background:linear-gradient(135deg, #f8f9fa 0%, #e8f4f8 100%);
-    }
-  </style>
-  <canvas id="particle-canvas"></canvas>
+  <!-- 🌟 PARTICLE BACKGROUND CANVAS -->
+  <canvas id="particle-canvas" aria-hidden="true"></canvas>
 
-  <script>
-    // ===== PARTICLE SCRIPT (Same as other pages) =====
-    (function() {
-      const canvas = document.getElementById('particle-canvas');
-      if(!canvas) return;
-      const ctx = canvas.getContext('2d');
-      let particles = [];
-      let mouse = { x: null, y: null, radius: 150 };
-      const colors = ['#2c5f4d', '#e67e22', '#3498db', '#95a5a6'];
-      
-      function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-      
-      class Particle {
-        constructor() {
-          this.x = Math.random() * canvas.width;
-          this.y = Math.random() * canvas.height;
-          this.size = Math.random() * 2 + 1;
-          this.speedX = (Math.random() - 0.5) * 0.5;
-          this.speedY = (Math.random() - 0.5) * 0.5;
-          this.color = colors[Math.floor(Math.random() * colors.length)];
-          this.originalSize = this.size;
-        }
-        update() {
-          if(mouse.x && mouse.y) {
-            const dx = mouse.x - this.x;
-            const dy = mouse.y - this.y;
-            const distance = Math.sqrt(dx * dx + dy * dy);
-            if(distance < mouse.radius) {
-              const force = (mouse.radius - distance) / mouse.radius;
-              this.size = this.originalSize + force * 2;
-              this.x += dx * 0.01 * force;
-              this.y += dy * 0.01 * force;
-            } else { this.size = this.originalSize; }
-          }
-          if(this.x < 0 || this.x > canvas.width) this.speedX *= -1;
-          if(this.y < 0 || this.y > canvas.height) this.speedY *= -1;
-          this.x += this.speedX;
-          this.y += this.speedY;
-        }
-        draw() {
-          ctx.beginPath();
-          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-          ctx.fillStyle = this.color;
-          ctx.fill();
-        }
-      }
-      
-      function init() {
-        resize();
-        particles = [];
-        const count = Math.min(80, Math.floor((canvas.width * canvas.height) / 15000));
-        for(let i = 0; i < count; i++) particles.push(new Particle());
-      }
-      
-      function connect() {
-        for(let a = 0; a < particles.length; a++) {
-          for(let b = a; b < particles.length; b++) {
-            const dx = particles[a].x - particles[b].x;
-            const dy = particles[a].y - particles[b].y;
-            const distance = Math.sqrt(dx * dx + dy * dy);
-            if(distance < 120) {
-              ctx.beginPath();
-              ctx.strokeStyle = `rgba(44, 95, 77, ${0.15 - distance/800})`;
-              ctx.lineWidth = 0.5;
-              ctx.moveTo(particles[a].x, particles[a].y);
-              ctx.lineTo(particles[b].x, particles[b].y);
-              ctx.stroke();
-            }
-          }
-          if(mouse.x && mouse.y) {
-            const dx = particles[a].x - mouse.x;
-            const dy = particles[a].y - mouse.y;
-            const distance = Math.sqrt(dx * dx + dy * dy);
-            if(distance < mouse.radius) {
-              ctx.beginPath();
-              ctx.strokeStyle = `rgba(230, 126, 34, ${0.3 - distance/500})`;
-              ctx.lineWidth = 0.8;
-              ctx.moveTo(particles[a].x, particles[a].y);
-              ctx.lineTo(mouse.x, mouse.y);
-              ctx.stroke();
-            }
-          }
-        }
-      }
-      
-      function animate() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        for(let particle of particles) { particle.update(); particle.draw(); }
-        connect();
-        requestAnimationFrame(animate);
-      }
-      
-      window.addEventListener('resize', () => { resize(); init(); });
-      window.addEventListener('mousemove', e => { mouse.x = e.x; mouse.y = e.y; });
-      window.addEventListener('mouseout', () => { mouse.x = null; mouse.y = null; });
-      window.addEventListener('touchmove', e => { if(e.touches[0]) { mouse.x = e.touches[0].clientX; mouse.y = e.touches[0].clientY; } });
-      
-      init();
-      animate();
-    })();
-  </script>
+  <!-- Dynamic Header -->
+  <div id="header-placeholder"></div>
 
-  <!-- Header loads here -->
-  <div id="header"></div>
-
+  <!-- 🎯 MAIN CONTENT -->
   <main>
-    <!-- Page Header -->
-    <section class="page-header">
+    
+    <!-- Page Hero -->
+    <section class="page-hero">
       <div class="container">
-        <h1>Photo Gallery</h1>
-        <p>A visual journey through paradise. Explore our rooms, dining, and the breathtaking beauty of Mfangano Island.</p>
+        <h1 class="scroll-reveal">Photo Gallery</h1>
+        <p class="scroll-reveal delay-1">A visual journey through paradise. Explore our rooms, dining, and the breathtaking beauty of Mfangano Island.</p>
       </div>
     </section>
-
-    <!-- Filters -->
-    <div class="container">
-      <div class="filter-container">
+    
+    <!-- Gallery Filters -->
+    <section class="container">
+      <div class="gallery-filters scroll-reveal">
         <button class="filter-btn active" data-filter="all">All</button>
         <button class="filter-btn" data-filter="rooms">Rooms & Suites</button>
         <button class="filter-btn" data-filter="dining">Dining</button>
         <button class="filter-btn" data-filter="nature">Nature & Lake</button>
         <button class="filter-btn" data-filter="culture">Culture</button>
       </div>
-    </div>
-
+    </section>
+    
     <!-- Gallery Grid -->
-    <div class="container">
+    <section class="container">
       <div class="gallery-grid">
         
-        <!-- Item 1: Room -->
-        <div class="gallery-item" data-category="rooms">
-          <img src="https://images.unsplash.com/photo-1611892440504-42a792e24d32?auto=format&fit=crop&w=800&q=80" alt="Luxury Suite View">
-          <div class="overlay">
+        <div class="gallery-item card-hover scroll-reveal delay-1" data-category="rooms">
+          <img src="https://images.unsplash.com/photo-1611892440504-42a792e24d32?auto=format&fit=crop&w=800&q=80" alt="Lake View Suite" loading="lazy">
+          <div class="gallery-overlay">
             <h3>Lake View Suite</h3>
             <p>Wake up to the sunrise over Lake Victoria.</p>
           </div>
         </div>
-
-        <!-- Item 2: Dining -->
-        <div class="gallery-item" data-category="dining">
-          <img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=800&q=80" alt="Outdoor Dining">
-          <div class="overlay">
+        
+        <div class="gallery-item card-hover scroll-reveal delay-2" data-category="dining">
+          <img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=800&q=80" alt="Lakeside Dining" loading="lazy">
+          <div class="gallery-overlay">
             <h3>Lakeside Dining</h3>
             <p>Fresh catch of the day served under the stars.</p>
           </div>
         </div>
-
-        <!-- Item 3: Nature -->
-        <div class="gallery-item" data-category="nature">
-          <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80" alt="Mfangano Beach">
-          <div class="overlay">
+        
+        <div class="gallery-item card-hover scroll-reveal delay-3" data-category="nature">
+          <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80" alt="Private Beach" loading="lazy">
+          <div class="gallery-overlay">
             <h3>Private Beach</h3>
             <p>Pristine sands exclusive to our guests.</p>
           </div>
         </div>
-
-        <!-- Item 4: Room Interior -->
-        <div class="gallery-item" data-category="rooms">
-          <img src="https://images.unsplash.com/photo-1590490360182-c31938a86497?auto=format&fit=crop&w=800&q=80" alt="Garden Villa">
-          <div class="overlay">
+        
+        <div class="gallery-item card-hover scroll-reveal delay-1" data-category="rooms">
+          <img src="https://images.unsplash.com/photo-1590490360182-c31938a86497?auto=format&fit=crop&w=800&q=80" alt="Garden Villa" loading="lazy">
+          <div class="gallery-overlay">
             <h3>Garden Villa</h3>
             <p>Surrounded by tropical lushness.</p>
           </div>
         </div>
-
-        <!-- Item 5: Culture -->
-        <div class="gallery-item" data-category="culture">
-          <img src="https://images.unsplash.com/photo-1523805009345-7448845a9e53?auto=format&fit=crop&w=800&q=80" alt="Luo Cultural Dance">
-          <div class="overlay">
+        
+        <div class="gallery-item card-hover scroll-reveal delay-2" data-category="culture">
+          <img src="https://images.unsplash.com/photo-1523805009345-7448845a9e53?auto=format&fit=crop&w=800&q=80" alt="Cultural Experience" loading="lazy">
+          <div class="gallery-overlay">
             <h3>Cultural Experience</h3>
             <p>Traditional Luo dance performances.</p>
           </div>
         </div>
-
-        <!-- Item 6: Pool/Relax -->
-        <div class="gallery-item" data-category="nature">
-          <img src="https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&w=800&q=80" alt="Infinity Pool">
-          <div class="overlay">
+        
+        <div class="gallery-item card-hover scroll-reveal delay-3" data-category="amenities">
+          <img src="https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&w=800&q=80" alt="Infinity Pool" loading="lazy">
+          <div class="gallery-overlay">
             <h3>Infinity Pool</h3>
             <p>Blending seamlessly with the lake horizon.</p>
           </div>
         </div>
-
-        <!-- Item 7: Food Detail -->
-        <div class="gallery-item" data-category="dining">
-          <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=80" alt="Gourmet Dish">
-          <div class="overlay">
+        
+        <div class="gallery-item card-hover scroll-reveal delay-1" data-category="dining">
+          <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=80" alt="Local Cuisine" loading="lazy">
+          <div class="gallery-overlay">
             <h3>Local Cuisine</h3>
             <p>Organic ingredients from our own garden.</p>
           </div>
         </div>
-
-        <!-- Item 8: Banda -->
-        <div class="gallery-item" data-category="rooms">
-          <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=800&q=80" alt="Traditional Banda">
-          <div class="overlay">
+        
+        <div class="gallery-item card-hover scroll-reveal delay-2" data-category="rooms">
+          <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=800&q=80" alt="Traditional Banda" loading="lazy">
+          <div class="gallery-overlay">
             <h3>Traditional Banda</h3>
             <p>Authentic architecture with modern luxury.</p>
           </div>
         </div>
-
+        
       </div>
+    </section>
+    
+    <!-- Lightbox Modal -->
+    <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer" hidden>
+      <button class="lightbox-close" aria-label="Close lightbox">&times;</button>
+      <button class="lightbox-prev" aria-label="Previous image">❮</button>
+      <img src="" alt="" class="lightbox-image">
+      <button class="lightbox-next" aria-label="Next image">❯</button>
+      <div class="lightbox-caption"></div>
     </div>
+    
+    <!-- Final CTA -->
+    <section class="final-cta-gallery">
+      <div class="container">
+        <h2 class="scroll-reveal">Ready to Experience Paradise?</h2>
+        <p class="scroll-reveal delay-1">These images only capture a glimpse of what awaits you at Kadongo Resort.</p>
+        <a href="booking.html" class="btn-hero scroll-reveal delay-2">Book Your Stay Now</a>
+      </div>
+    </section>
+    
   </main>
 
-  <!-- Lightbox Modal -->
-  <div class="lightbox" id="lightbox">
-    <span class="lightbox-close">&times;</span>
-    <img src="" alt="Full screen view">
-  </div>
+  <!-- Dynamic Footer -->
+  <div id="footer-placeholder"></div>
 
-  <!-- Footer loads here -->
-  <div id="footer"></div>
+  <!-- Main Script Loader -->
+  <script src="script.js"></script>
 
+  <!-- Page-Specific JavaScript & CSS -->
   <script>
-    // ===== LOAD HEADER & FOOTER =====
-    Promise.all([
-      fetch("header.html").then(res => res.ok ? res.text() : ''),
-      fetch("footer.html").then(res => res.ok ? res.text() : '')
-    ])
-    .then(([headerData, footerData]) => {
-      document.getElementById("header").innerHTML = headerData;
-      document.getElementById("footer").innerHTML = footerData;
+    document.addEventListener('DOMContentLoaded', function() {
       
-      // Highlight active link after load
-      const currentFile = window.location.pathname.split('/').pop() || 'index.html';
-      document.querySelectorAll('.nav-link').forEach(link => {
-        if(link.getAttribute('href') === currentFile) link.classList.add('active');
-      });
-    })
-    .catch(err => console.error('Error loading components:', err));
-
-    // ===== FILTER FUNCTIONALITY =====
-    const filterBtns = document.querySelectorAll('.filter-btn');
-    const galleryItems = document.querySelectorAll('.gallery-item');
-
-    filterBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        // Remove active class from all
-        filterBtns.forEach(b => b.classList.remove('active'));
-        // Add active to clicked
-        btn.classList.add('active');
-        
-        const filterValue = btn.getAttribute('data-filter');
-
-        galleryItems.forEach(item => {
-          if (filterValue === 'all' || item.getAttribute('data-category') === filterValue) {
-            item.style.display = 'block';
-            setTimeout(() => {
-              item.style.opacity = '1';
-              item.style.transform = 'scale(1)';
-            }, 50);
-          } else {
-            item.style.opacity = '0';
-            item.style.transform = 'scale(0.8)';
-            setTimeout(() => {
-              item.style.display = 'none';
-            }, 300);
-          }
-        });
-      });
-    });
-
-    // ===== LIGHTBOX FUNCTIONALITY =====
-    const lightbox = document.getElementById('lightbox');
-    const lightboxImg = lightbox.querySelector('img');
-    const closeBtn = document.querySelector('.lightbox-close');
-
-    galleryItems.forEach(item => {
-      item.addEventListener('click', () => {
-        const img = item.querySelector('img');
-        // Use the same source, but in a real scenario you might have a data-full-res attribute
-        lightboxImg.src = img.src; 
-        lightbox.classList.add('active');
-        document.body.style.overflow = 'hidden'; // Prevent scrolling
-      });
-    });
-
-    const closeLightbox = () => {
-      lightbox.classList.remove('active');
-      document.body.style.overflow = 'auto';
-    };
-
-    closeBtn.addEventListener('click', closeLightbox);
-    
-    // Close when clicking outside the image
-    lightbox.addEventListener('click', (e) => {
-      if (e.target === lightbox) closeLightbox();
-    });
-
-    // Close on Escape key
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && lightbox.classList.contains('active')) {
-        closeLightbox();
+      // ===== SCROLL REVEAL ANIMATIONS =====
+      function initScrollAnimations() {
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+        document.querySelectorAll('.scroll-reveal').forEach(el => observer.observe(el));
       }
+      
+      // ===== GALLERY FILTER FUNCTIONALITY =====
+      function initGalleryFilters() {
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        
+        filterBtns.forEach(btn => {
+          btn.addEventListener('click', function() {
+            filterBtns.forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            
+            const filter = this.dataset.filter;
+            
+            galleryItems.forEach(item => {
+              if (filter === 'all' || item.dataset.category.includes(filter)) {
+                item.style.display = 'block';
+                setTimeout(() => {
+                  item.style.opacity = '1';
+                  item.style.transform = 'scale(1)';
+                }, 100);
+              } else {
+                item.style.opacity = '0';
+                item.style.transform = 'scale(0.8)';
+                setTimeout(() => { item.style.display = 'none'; }, 300);
+              }
+            });
+          });
+        });
+      }
+      
+      // ===== LIGHTBOX FUNCTIONALITY =====
+      function initLightbox() {
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = lightbox.querySelector('.lightbox-image');
+        const lightboxCaption = lightbox.querySelector('.lightbox-caption');
+        const closeBtn = lightbox.querySelector('.lightbox-close');
+        const prevBtn = lightbox.querySelector('.lightbox-prev');
+        const nextBtn = lightbox.querySelector('.lightbox-next');
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        
+        let currentIndex = 0;
+        let visibleItems = [];
+        
+        function updateVisibleItems() {
+          visibleItems = Array.from(galleryItems).filter(item => item.style.display !== 'none');
+        }
+        
+        function openLightbox(index) {
+          updateVisibleItems();
+          currentIndex = index;
+          const item = visibleItems[currentIndex];
+          const img = item.querySelector('img');
+          const caption = item.querySelector('.gallery-overlay h3').textContent;
+          
+          lightboxImg.src = img.src;
+          lightboxImg.alt = img.alt;
+          lightboxCaption.textContent = caption;
+          lightbox.hidden = false;
+          document.body.style.overflow = 'hidden';
+        }
+        
+        function closeLightbox() {
+          lightbox.hidden = true;
+          document.body.style.overflow = '';
+        }
+        
+        function showNext() {
+          updateVisibleItems();
+          currentIndex = (currentIndex + 1) % visibleItems.length;
+          const item = visibleItems[currentIndex];
+          const img = item.querySelector('img');
+          const caption = item.querySelector('.gallery-overlay h3').textContent;
+          
+          lightboxImg.src = img.src;
+          lightboxImg.alt = img.alt;
+          lightboxCaption.textContent = caption;
+        }
+        
+        function showPrev() {
+          updateVisibleItems();
+          currentIndex = (currentIndex - 1 + visibleItems.length) % visibleItems.length;
+          const item = visibleItems[currentIndex];
+          const img = item.querySelector('img');
+          const caption = item.querySelector('.gallery-overlay h3').textContent;
+          
+          lightboxImg.src = img.src;
+          lightboxImg.alt = img.alt;
+          lightboxCaption.textContent = caption;
+        }
+        
+        // Open lightbox on image click
+        galleryItems.forEach((item, index) => {
+          item.addEventListener('click', () => {
+            updateVisibleItems();
+            const visibleIndex = visibleItems.indexOf(item);
+            if (visibleIndex !== -1) openLightbox(visibleIndex);
+          });
+        });
+        
+        // Event listeners
+        closeBtn.addEventListener('click', closeLightbox);
+        nextBtn.addEventListener('click', showNext);
+        prevBtn.addEventListener('click', showPrev);
+        
+        lightbox.addEventListener('click', (e) => {
+          if (e.target === lightbox) closeLightbox();
+        });
+        
+        document.addEventListener('keydown', (e) => {
+          if (lightbox.hidden) return;
+          if (e.key === 'Escape') closeLightbox();
+          if (e.key === 'ArrowRight') showNext();
+          if (e.key === 'ArrowLeft') showPrev();
+        });
+      }
+      
+      // ===== PARTICLE NETWORK ANIMATION =====
+      (function initParticles() {
+        const canvas = document.getElementById('particle-canvas');
+        if (!canvas || !canvas.getContext) return;
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let mouse = { x: null, y: null, radius: 180 };
+        let animationFrameId;
+        const lightColors = ['#2c5f4d', '#e67e22', '#3498db', '#95a5a6'];
+        const darkColors = ['#4dd0e1', '#ff9800', '#81d4fa', '#bdbdbd'];
+        
+        function getThemeColors() {
+          return document.documentElement.getAttribute('data-theme') === 'dark' ? darkColors : lightColors;
+        }
+        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        
+        class Particle {
+          constructor() { this.reset(); }
+          reset() {
+            this.x = Math.random() * canvas.width;
+            this.y = Math.random() * canvas.height;
+            this.size = Math.random() * 2.5 + 1;
+            this.originalSize = this.size;
+            this.speedX = (Math.random() - 0.5) * 0.6;
+            this.speedY = (Math.random() - 0.5) * 0.6;
+            this.color = getThemeColors()[Math.floor(Math.random() * getThemeColors().length)];
+            this.opacity = Math.random() * 0.4 + 0.3;
+          }
+          update() {
+            if (mouse.x !== null && mouse.y !== null) {
+              const dx = mouse.x - this.x, dy = mouse.y - this.y, distance = Math.sqrt(dx*dx + dy*dy);
+              if (distance < mouse.radius) {
+                const force = (mouse.radius - distance) / mouse.radius;
+                this.x += dx * 0.02 * force; this.y += dy * 0.02 * force;
+                this.size = this.originalSize + force * 2.5;
+              } else if (this.size > this.originalSize) { this.size -= 0.05; }
+            }
+            if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+            if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+            this.x += this.speedX; this.y += this.speedY;
+          }
+          draw() {
+            ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx.fillStyle = this.color; ctx.globalAlpha = this.opacity; ctx.fill(); ctx.globalAlpha = 1;
+          }
+        }
+        
+        function init() {
+          resize(); particles = [];
+          const count = Math.min(80, Math.floor((canvas.width * canvas.height) / 18000));
+          for (let i = 0; i < count; i++) particles.push(new Particle());
+        }
+        function connect() {
+          const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+          const baseColor = isDark ? 'rgba(77, 208, 225,' : 'rgba(44, 95, 77,';
+          const mouseColor = isDark ? 'rgba(255, 152, 0,' : 'rgba(230, 126, 34,';
+          for (let a = 0; a < particles.length; a++) {
+            for (let b = a + 1; b < particles.length; b++) {
+              const dx = particles[a].x - particles[b].x, dy = particles[a].y - particles[b].y, distance = Math.sqrt(dx*dx + dy*dy);
+              if (distance < 130) {
+                const opacity = 0.18 - (distance / 130) * 0.12;
+                ctx.beginPath(); ctx.strokeStyle = baseColor + opacity + ')';
+                ctx.lineWidth = 0.6;
+                ctx.moveTo(particles[a].x, particles[a].y); ctx.lineTo(particles[b].x, particles[b].y); ctx.stroke();
+              }
+            }
+            if (mouse.x !== null && mouse.y !== null) {
+              const dx = particles[a].x - mouse.x, dy = particles[a].y - mouse.y, distance = Math.sqrt(dx*dx + dy*dy);
+              if (distance < mouse.radius) {
+                const opacity = 0.35 - (distance / mouse.radius) * 0.25;
+                ctx.beginPath(); ctx.strokeStyle = mouseColor + opacity + ')';
+                ctx.lineWidth = 1;
+                ctx.moveTo(particles[a].x, particles[a].y); ctx.lineTo(mouse.x, mouse.y); ctx.stroke();
+              }
+            }
+          }
+        }
+        function animate() {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          for (const p of particles) { p.update(); p.draw(); }
+          connect(); animationFrameId = requestAnimationFrame(animate);
+        }
+        window.addEventListener('resize', () => { resize(); init(); }, { passive: true });
+        window.addEventListener('mousemove', (e) => { mouse.x = e.clientX; mouse.y = e.clientY; }, { passive: true });
+        window.addEventListener('touchmove', (e) => { if (e.touches[0]) { mouse.x = e.touches[0].clientX; mouse.y = e.touches[0].clientY; }}, { passive: true });
+        window.addEventListener('mouseout', () => { mouse.x = null; mouse.y = null; });
+        const themeObserver = new MutationObserver(() => {
+          particles.forEach(p => p.color = getThemeColors()[Math.floor(Math.random() * getThemeColors().length)]);
+        });
+        themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+        document.addEventListener('visibilitychange', () => { if (document.hidden) cancelAnimationFrame(animationFrameId); else animate(); });
+        init(); animate();
+      })();
+      
+      // ===== INITIALIZE =====
+      initScrollAnimations();
+      initGalleryFilters();
+      initLightbox();
+      setTimeout(() => { if (typeof highlightActiveLink === 'function') highlightActiveLink(); }, 200);
     });
   </script>
+  
+  <style>
+    /* ===== BASE VARIABLES ===== */
+    :root {
+      --primary: #2c5f4d; --accent: #e67e22; --accent-hover: #d35400;
+      --dark: #1a252f; --light: #f8f9fa;
+      --shadow: 0 4px 20px rgba(0,0,0,0.08); --shadow-hover: 0 8px 30px rgba(0,0,0,0.12);
+      --radius: 12px;
+      --bg-body: #fff; --bg-section: #f8f9fa; --text-main: #333; --text-muted: #666; --card-bg: #fff;
+      --particle-bg-start: #f8f9fa; --particle-bg-end: #e8f4f8; --input-border: #e0e0e0;
+    }
+    [data-theme="dark"] {
+      --bg-body: #121212; --bg-section: #1e1e1e; --text-main: #e0e0e0; --text-muted: #b0b0b0; --card-bg: #1e1e1e;
+      --shadow: 0 4px 20px rgba(0,0,0,0.3); --particle-bg-start: #1a252f; --particle-bg-end: #2c3e50; --input-border: #444;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6; color: var(--text-main); background: var(--bg-body);
+      overflow-x: hidden; transition: background-color 0.3s, color 0.3s;
+    }
+    a { text-decoration: none; color: inherit; transition: color 0.3s; }
+    img { max-width: 100%; display: block; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; position: relative; z-index: 2; }
+    
+    /* ===== SCROLL ANIMATIONS ===== */
+    .scroll-reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .scroll-reveal.visible { opacity: 1; transform: translateY(0); }
+    .scroll-reveal.delay-1 { transition-delay: 0.1s; }
+    .scroll-reveal.delay-2 { transition-delay: 0.2s; }
+    .scroll-reveal.delay-3 { transition-delay: 0.3s; }
+    .card-hover { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+    .card-hover:hover { transform: translateY(-8px); box-shadow: var(--shadow-hover); }
+    
+    /* ===== PAGE HERO ===== */
+    .page-hero {
+      background: linear-gradient(135deg, rgba(44,95,77,0.9), rgba(26,37,47,0.85)),
+                  url('https://images.unsplash.com/photo-1540541338287-41700207dee6?auto=format&fit=crop&w=1920&q=80') center/cover;
+      padding: 120px 0 80px; text-align: center; color: #fff;
+    }
+    .page-hero h1 {
+      font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; margin-bottom: 1rem;
+      text-shadow: 0 2px 15px rgba(0,0,0,0.4);
+    }
+    .page-hero p {
+      font-size: 1.2rem; opacity: 0.95; max-width: 600px; margin: 0 auto;
+    }
+    
+    /* ===== GALLERY FILTERS ===== */
+    .gallery-filters {
+      display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;
+      padding: 30px 0; margin-bottom: 20px;
+    }
+    .filter-btn {
+      padding: 10px 20px; border: 2px solid var(--input-border);
+      border-radius: 30px; background: var(--card-bg); color: var(--text-main);
+      font-weight: 500; cursor: pointer; transition: all 0.3s;
+    }
+    .filter-btn:hover, .filter-btn.active {
+      border-color: var(--accent); background: var(--accent); color: #fff;
+    }
+    
+    /* ===== GALLERY GRID ===== */
+    .gallery-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px; padding: 20px 0 60px;
+    }
+    .gallery-item {
+      position: relative; border-radius: var(--radius); overflow: hidden;
+      box-shadow: var(--shadow); cursor: pointer; aspect-ratio: 4/3;
+    }
+    .gallery-item img {
+      width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s;
+    }
+    .gallery-item:hover img { transform: scale(1.1); }
+    .gallery-overlay {
+      position: absolute; inset: 0; background: linear-gradient(to top, rgba(44,95,77,0.9), transparent);
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 20px; color: #fff; opacity: 0; transition: opacity 0.3s;
+    }
+    .gallery-item:hover .gallery-overlay { opacity: 1; }
+    .gallery-overlay h3 { font-size: 1.2rem; margin-bottom: 5px; }
+    .gallery-overlay p { font-size: 0.9rem; opacity: 0.9; }
+    
+    /* ===== LIGHTBOX ===== */
+    .lightbox {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.95);
+      z-index: 10000; display: flex; align-items: center; justify-content: center;
+      flex-direction: column;
+    }
+    .lightbox[hidden] { display: none; }
+    .lightbox-image {
+      max-width: 90%; max-height: 80vh; border-radius: var(--radius);
+      box-shadow: 0 10px 50px rgba(0,0,0,0.5);
+    }
+    .lightbox-close {
+      position: absolute; top: 20px; right: 20px; background: none;
+      border: none; color: #fff; font-size: 2.5rem; cursor: pointer;
+    }
+    .lightbox-prev, .lightbox-next {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      background: rgba(255,255,255,0.1); border: none; color: #fff;
+      font-size: 2rem; padding: 15px 20px; cursor: pointer; border-radius: 50%;
+    }
+    .lightbox-prev { left: 20px; }
+    .lightbox-next { right: 20px; }
+    .lightbox-caption {
+      color: #fff; margin-top: 20px; font-size: 1.1rem; text-align: center;
+    }
+    
+    /* ===== FINAL CTA ===== */
+    .final-cta-gallery {
+      text-align: center; padding: 80px 0;
+      background: linear-gradient(135deg, rgba(44,95,77,0.95), rgba(26,37,47,0.9)),
+                  url('https://images.unsplash.com/photo-1520257328597-2c6d0e7f6f8e?auto=format&fit=crop&w=1920&q=80') center/cover;
+      color: #fff;
+    }
+    .final-cta-gallery h2 {
+      font-size: clamp(1.8rem, 4vw, 2.5rem); margin-bottom: 1rem; font-weight: 700;
+    }
+    .final-cta-gallery p {
+      font-size: 1.15rem; max-width: 600px; margin: 0 auto 2rem; opacity: 0.95;
+    }
+    .btn-hero {
+      background: #fff; color: var(--primary); padding: 16px 40px;
+      border-radius: 10px; font-weight: 700; font-size: 1.1rem;
+      transition: transform 0.3s; display: inline-block; text-decoration: none;
+    }
+    .btn-hero:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+    
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      .page-hero { padding: 100px 0 60px; }
+      .page-hero h1 { font-size: 2.3rem; }
+      .gallery-filters { flex-wrap: wrap; }
+      .filter-btn { padding: 8px 16px; font-size: 0.9rem; }
+      .gallery-grid { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+      .lightbox-prev, .lightbox-next { padding: 10px 15px; font-size: 1.5rem; }
+      .final-cta-gallery h2 { font-size: 2rem; }
+      .final-cta-gallery p { font-size: 1.05rem; }
+    }
+    @media (max-width: 480px) {
+      .page-hero h1 { font-size: 2rem; }
+      .btn-hero { width: 100%; padding: 14px; }
+    }
+    
+    /* ===== ACCESSIBILITY ===== */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important; transition-duration: 0.01ms !important;
+      }
+    }
+    a:focus-visible, button:focus-visible {
+      outline: 3px solid var(--accent); outline-offset: 2px; border-radius: 8px;
+    }
+  </style>
 </body>
 </html>
