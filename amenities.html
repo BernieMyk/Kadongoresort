@@ -1,150 +1,468 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Resort Amenities at Kadongo — Everything you need for the perfect island escape.">
   <title>Amenities | Kadongo Resort - Mfangano Island</title>
+  
+  <!-- Critical: Particle canvas must not block header clicks -->
   <style>
-    /* Same base CSS + brand variables as about.html */
-    *{box-sizing:border-box;margin:0;padding:0}body{font-family:'Segoe UI',sans-serif;line-height:1.6;color:#333;background:transparent}a{text-decoration:none;color:inherit}.container{max-width:1200px;margin:0 auto;padding:0 20px}:root{--primary:#2c5f4d;--accent:#e67e22;--dark:#1a252f;--light:#f8f9fa;--shadow:0 4px 20px rgba(0,0,0,0.08);--radius:12px}
-    
-    .page-header{background:linear-gradient(135deg,rgba(44,95,77,0.9),rgba(26,37,47,0.85)),url('https://images.unsplash.com/photo-1544161515483-54883d0459ae?auto=format&fit=crop&w=1920&q=80')center/cover;color:#fff;padding:100px 0 60px;text-align:center}
-    .page-header h1{font-size:2.8rem;margin-bottom:15px}.page-header p{font-size:1.2rem;max-width:700px;margin:0 auto}
-    
-    .amenity-section{padding:70px 0}.amenity-section:nth-child(even){background:var(--light)}
-    .amenity-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:30px}
-    .amenity-card{background:#fff;padding:30px;border-radius:var(--radius);box-shadow:var(--shadow);text-align:center;transition:transform 0.3s}.amenity-card:hover{transform:translateY(-5px)}
-    .amenity-icon{font-size:3rem;margin-bottom:20px;color:var(--accent)}.amenity-card h3{color:var(--primary);margin:15px 0;font-size:1.3rem}
-    .amenity-card p{color:#666;margin:10px 0}
-    
-    .feature-highlight{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;padding:60px 0}
-    .feature-img{height:350px;border-radius:var(--radius);background:#ddd center/cover;box-shadow:var(--shadow)}
-    
-    @media(max-width:900px){.feature-highlight{grid-template-columns:1fr}.page-header h1{font-size:2.2rem}}
+    #particle-canvas { pointer-events: none !important; z-index: -1 !important; position: fixed; top: 0; left: 0; width: 100%; height: 100%; }
+    #header-placeholder { position: relative; z-index: 10000; }
+    #header-placeholder, #footer-placeholder { min-height: 80px; }
   </style>
 </head>
 <body>
-  <!-- Particle Background (same as above) -->
-  <canvas id="particle-canvas"></canvas>
-  <style>#particle-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;pointer-events:none;background:linear-gradient(135deg,#f8f9fa,#e8f4f8)}</style>
-  <script>/* Paste particle script here */</script>
 
-  <div id="header"></div>
+  <!-- 🌟 PARTICLE BACKGROUND CANVAS -->
+  <canvas id="particle-canvas" aria-hidden="true"></canvas>
 
+  <!-- Dynamic Header -->
+  <div id="header-placeholder"></div>
+
+  <!-- 🎯 MAIN CONTENT -->
   <main>
-    <section class="page-header">
-      <div class="container"><h1>Resort Amenities</h1><p>Everything you need for the perfect island escape.</p></div>
+    
+    <!-- Page Hero -->
+    <section class="page-hero">
+      <div class="container">
+        <h1 class="scroll-reveal">Resort Amenities</h1>
+        <p class="scroll-reveal delay-1">Everything you need for the perfect island escape.</p>
+      </div>
     </section>
     
-    <!-- Wellness -->
-    <section class="amenity-section">
+    <!-- Wellness & Relaxation -->
+    <section class="container">
+      <div class="section-header scroll-reveal">
+        <h2>Wellness & Relaxation</h2>
+        <p>Rejuvenate your body and soul in our tranquil spaces.</p>
+      </div>
+      <div class="amenities-grid">
+        <div class="amenity-card card-hover scroll-reveal delay-1">
+          <div class="amenity-icon">🧖</div>
+          <h3>Lakeside Spa</h3>
+          <p>Traditional Luo herbal treatments, massages, and facials using organic local botanicals. Our spa therapists blend ancient wisdom with modern techniques for the ultimate relaxation.</p>
+          <ul class="amenity-features">
+            <li>✓ Couples treatment suites</li>
+            <li>✓ Lakeside massage pavilions</li>
+            <li>✓ Organic product line</li>
+          </ul>
+        </div>
+        <div class="amenity-card card-hover scroll-reveal delay-2">
+          <div class="amenity-icon">🧘</div>
+          <h3>Yoga Pavilion</h3>
+          <p>Daily sunrise and sunset sessions overlooking Lake Victoria. Private instruction available for all levels, from beginner to advanced practitioners.</p>
+          <ul class="amenity-features">
+            <li>✓ Open-air pavilion</li>
+            <li>✓ All equipment provided</li>
+            <li>✓ Private sessions available</li>
+          </ul>
+        </div>
+        <div class="amenity-card card-hover scroll-reveal delay-3">
+          <div class="amenity-icon">🏊</div>
+          <h3>Infinity Pool</h3>
+          <p>Heated freshwater pool that appears to merge with the lake horizon. Enjoy poolside service with refreshing cocktails and light bites throughout the day.</p>
+          <ul class="amenity-features">
+            <li>✓ Heated year-round</li>
+            <li>✓ Poolside bar service</li>
+            <li>✓ Sunset views</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Lakeside Dining -->
+    <section class="dining-bg">
       <div class="container">
-        <div class="section-header" style="text-align:center;margin-bottom:40px"><h2 style="font-size:2rem;color:var(--primary)">Wellness & Relaxation</h2></div>
-        <div class="amenity-grid">
-          <div class="amenity-card">
-            <div class="amenity-icon">🧖</div>
-            <h3>Lakeside Spa</h3>
-            <p>Traditional Luo herbal treatments, massages, and facials using organic local botanicals.</p>
+        <div class="dining-grid">
+          <div class="dining-content scroll-reveal">
+            <h2>Lakeside Dining</h2>
+            <p>Savor farm-to-table cuisine at <strong>Ziwa Restaurant</strong>, featuring fresh Nile Perch, organic garden produce, and authentic Luo dishes prepared with love.</p>
+            <p>Enjoy sundowners at <strong>Sunset Bar</strong> with craft cocktails, local wines, and live acoustic music as the sun dips below Lake Victoria.</p>
+            <div class="dining-hours">
+              <h4>Restaurant Hours</h4>
+              <ul>
+                <li><span>🍳</span> Breakfast: 7:00 AM - 10:30 AM</li>
+                <li><span>🥗</span> Lunch: 12:30 PM - 3:00 PM</li>
+                <li><span>🍽️</span> Dinner: 7:00 PM - 10:00 PM</li>
+                <li><span>🕯️</span> Private beach dinners available</li>
+              </ul>
+            </div>
+            <a href="dining.html" class="btn-primary">View Full Menu →</a>
           </div>
-          <div class="amenity-card">
-            <div class="amenity-icon">🧘</div>
-            <h3>Yoga Pavilion</h3>
-            <p>Daily sunrise/sunset sessions overlooking Lake Victoria. Private instruction available.</p>
-          </div>
-          <div class="amenity-card">
-            <div class="amenity-icon">🏊</div>
-            <h3>Infinity Pool</h3>
-            <p>Heated freshwater pool that appears to merge with the lake horizon. Poolside service.</p>
+          <div class="dining-image scroll-reveal delay-1">
+            <img src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=800&q=80" alt="Lakeside dining at Kadongo Resort" loading="lazy">
           </div>
         </div>
       </div>
     </section>
     
-    <!-- Dining -->
-    <section class="amenity-section">
+    <!-- Island Experiences -->
+    <section class="container">
+      <div class="section-header scroll-reveal">
+        <h2>Island Experiences</h2>
+        <p>Discover the magic of Mfangano Island with our curated activities.</p>
+      </div>
+      <div class="experiences-grid">
+        <div class="experience-card card-hover scroll-reveal delay-1">
+          <div class="experience-icon">🚤</div>
+          <h3>Boat Tours</h3>
+          <p>Sunset cruises, fishing expeditions, and island-hopping adventures on Lake Victoria. Our experienced captains know the best spots for wildlife viewing and photography.</p>
+        </div>
+        <div class="experience-card card-hover scroll-reveal delay-2">
+          <div class="experience-icon">🎨</div>
+          <h3>Cultural Immersion</h3>
+          <p>Visit local villages, learn traditional crafts, and experience Luo music and dance. Connect with the community and gain deeper understanding of island life.</p>
+        </div>
+        <div class="experience-card card-hover scroll-reveal delay-3">
+          <div class="experience-icon">🐦</div>
+          <h3>Birdwatching</h3>
+          <p>Guided tours to spot 300+ species. Binoculars and expert guides provided. Best at dawn and dusk when bird activity peaks.</p>
+        </div>
+        <div class="experience-card card-hover scroll-reveal delay-1">
+          <div class="experience-icon">🧒</div>
+          <h3>Kids' Club</h3>
+          <p>Supervised activities, nature crafts, and cultural storytelling for young explorers. Let the little ones discover the island while parents relax.</p>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Guest Conveniences -->
+    <section class="conveniences-bg">
       <div class="container">
-        <div class="feature-highlight">
-          <div class="feature-img" style="background-image:url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=800&q=80')"></div>
-          <div>
-            <h2 style="color:var(--primary);font-size:1.8rem;margin-bottom:20px">Lakeside Dining</h2>
-            <p style="color:#555;margin:15px 0">Savor farm-to-table cuisine at <strong>Ziwa Restaurant</strong>, featuring fresh Nile Perch, organic garden produce, and authentic Luo dishes.</p>
-            <p style="color:#555;margin:15px 0">Enjoy sundowners at <strong>Sunset Bar</strong> with craft cocktails, local wines, and live acoustic music.</p>
-            <ul style="list-style:none;margin:20px 0;color:#666">
-              <li>✅ Breakfast: 7:00 AM - 10:30 AM</li>
-              <li>✅ Lunch: 12:30 PM - 3:00 PM</li>
-              <li>✅ Dinner: 7:00 PM - 10:00 PM</li>
-              <li>✅ Private beach dinners available</li>
-            </ul>
-            <a href="dining.html" style="color:var(--accent);font-weight:600">View Full Menu →</a>
+        <div class="section-header scroll-reveal">
+          <h2>Guest Conveniences</h2>
+          <p>Thoughtful touches to make your stay seamless.</p>
+        </div>
+        <div class="conveniences-grid">
+          <div class="convenience-item card-hover scroll-reveal delay-1">
+            <span class="convenience-icon">📶</span>
+            <div>
+              <h4>Free Wi-Fi</h4>
+              <p>High-speed internet throughout the resort. Work or stream with ease from your room or our common areas.</p>
+            </div>
+          </div>
+          <div class="convenience-item card-hover scroll-reveal delay-2">
+            <span class="convenience-icon">🅿️</span>
+            <div>
+              <h4>Complimentary Parking</h4>
+              <p>Secure, shaded parking for guests arriving by car or ferry. Valet service available upon request.</p>
+            </div>
+          </div>
+          <div class="convenience-item card-hover scroll-reveal delay-3">
+            <span class="convenience-icon">🚐</span>
+            <div>
+              <h4>Airport Transfers</h4>
+              <p>Private boat + vehicle transfers from Kisumu Airport. Booking required; arrange at time of reservation.</p>
+            </div>
+          </div>
+          <div class="convenience-item card-hover scroll-reveal delay-1">
+            <span class="convenience-icon">💬</span>
+            <div>
+              <h4>24/7 Concierge</h4>
+              <p>Our team is always available to arrange tours, dining reservations, special requests, or simply share local insights.</p>
+            </div>
           </div>
         </div>
       </div>
     </section>
     
-    <!-- Activities -->
-    <section class="amenity-section">
+    <!-- Final CTA -->
+    <section class="final-cta-amenities">
       <div class="container">
-        <div class="section-header" style="text-align:center;margin-bottom:40px"><h2 style="font-size:2rem;color:var(--primary)">Island Experiences</h2></div>
-        <div class="amenity-grid">
-          <div class="amenity-card">
-            <div class="amenity-icon">🚤</div>
-            <h3>Boat Tours</h3>
-            <p>Sunset cruises, fishing expeditions, and island-hopping adventures on Lake Victoria.</p>
-          </div>
-          <div class="amenity-card">
-            <div class="amenity-icon">🎨</div>
-            <h3>Cultural Immersion</h3>
-            <p>Visit local villages, learn traditional crafts, and experience Luo music and dance.</p>
-          </div>
-          <div class="amenity-card">
-            <div class="amenity-icon">🐦</div>
-            <h3>Birdwatching</h3>
-            <p>Guided tours to spot 300+ species. Binoculars and expert guides provided.</p>
-          </div>
-          <div class="amenity-card">
-            <div class="amenity-icon">🧒</div>
-            <h3>Kids' Club</h3>
-            <p>Supervised activities, nature crafts, and cultural storytelling for young explorers.</p>
-          </div>
-        </div>
+        <h2 class="scroll-reveal">Ready to Experience Kadongo?</h2>
+        <p class="scroll-reveal delay-1">Every amenity is designed to enhance your island escape. Let us help you plan the perfect stay.</p>
+        <a href="booking.html" class="btn-hero scroll-reveal delay-2">Book Your Stay Now</a>
       </div>
     </section>
     
-    <!-- Practical -->
-    <section class="amenity-section" style="background:var(--light)">
-      <div class="container">
-        <div class="section-header" style="text-align:center;margin-bottom:40px"><h2 style="font-size:2rem;color:var(--primary)">Guest Conveniences</h2></div>
-        <div class="amenity-grid">
-          <div class="amenity-card">
-            <div class="amenity-icon">📶</div>
-            <h3>Free Wi-Fi</h3>
-            <p>High-speed internet throughout the resort. Work or stream with ease.</p>
-          </div>
-          <div class="amenity-card">
-            <div class="amenity-icon">🅿️</div>
-            <h3>Complimentary Parking</h3>
-            <p>Secure, shaded parking for guests arriving by car or ferry.</p>
-          </div>
-          <div class="amenity-card">
-            <div class="amenity-icon">🚐</div>
-            <h3>Airport Transfers</h3>
-            <p>Private boat + vehicle transfers from Kisumu Airport (booking required).</p>
-          </div>
-          <div class="amenity-card">
-            <div class="amenity-icon">💬</div>
-            <h3>24/7 Concierge</h3>
-            <p>Our team is always available to arrange tours, dining, or special requests.</p>
-          </div>
-        </div>
-      </div>
-    </section>
   </main>
 
-  <div id="footer"></div>
+  <!-- Dynamic Footer -->
+  <div id="footer-placeholder"></div>
 
+  <!-- Main Script Loader -->
+  <script src="script.js"></script>
+
+  <!-- Page-Specific JavaScript & CSS -->
   <script>
-    Promise.all([fetch("header.html").then(r=>r.text()),fetch("footer.html").then(r=>r.text())]).then(([h,f])=>{document.getElementById("header").innerHTML=h;document.getElementById("footer").innerHTML=f;highlightActive();}).catch(e=>console.error(e));
-    function highlightActive(){const c=location.pathname.split('/').pop()||'index.html';document.querySelectorAll('.nav-link').forEach(l=>{if(l.href.endsWith(c))l.classList.add('active')});}
+    document.addEventListener('DOMContentLoaded', function() {
+      function initScrollAnimations() {
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+        document.querySelectorAll('.scroll-reveal').forEach(el => observer.observe(el));
+      }
+      (function initParticles() {
+        const canvas = document.getElementById('particle-canvas');
+        if (!canvas || !canvas.getContext) return;
+        const ctx = canvas.getContext('2d');
+        let particles = [], mouse = { x: null, y: null, radius: 180 }, animationFrameId;
+        const lightColors = ['#2c5f4d', '#e67e22', '#3498db', '#95a5a6'];
+        const darkColors = ['#4dd0e1', '#ff9800', '#81d4fa', '#bdbdbd'];
+        function getThemeColors() { return document.documentElement.getAttribute('data-theme') === 'dark' ? darkColors : lightColors; }
+        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        class Particle {
+          constructor() { this.reset(); }
+          reset() {
+            this.x = Math.random() * canvas.width; this.y = Math.random() * canvas.height;
+            this.size = Math.random() * 2.5 + 1; this.originalSize = this.size;
+            this.speedX = (Math.random() - 0.5) * 0.6; this.speedY = (Math.random() - 0.5) * 0.6;
+            this.color = getThemeColors()[Math.floor(Math.random() * getThemeColors().length)];
+            this.opacity = Math.random() * 0.4 + 0.3;
+          }
+          update() {
+            if (mouse.x !== null && mouse.y !== null) {
+              const dx = mouse.x - this.x, dy = mouse.y - this.y, distance = Math.sqrt(dx*dx + dy*dy);
+              if (distance < mouse.radius) {
+                const force = (mouse.radius - distance) / mouse.radius;
+                this.x += dx * 0.02 * force; this.y += dy * 0.02 * force;
+                this.size = this.originalSize + force * 2.5;
+              } else if (this.size > this.originalSize) { this.size -= 0.05; }
+            }
+            if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+            if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+            this.x += this.speedX; this.y += this.speedY;
+          }
+          draw() {
+            ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx.fillStyle = this.color; ctx.globalAlpha = this.opacity; ctx.fill(); ctx.globalAlpha = 1;
+          }
+        }
+        function init() { resize(); particles = []; const count = Math.min(80, Math.floor((canvas.width * canvas.height) / 18000)); for (let i = 0; i < count; i++) particles.push(new Particle()); }
+        function connect() {
+          const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+          const baseColor = isDark ? 'rgba(77, 208, 225,' : 'rgba(44, 95, 77,';
+          const mouseColor = isDark ? 'rgba(255, 152, 0,' : 'rgba(230, 126, 34,';
+          for (let a = 0; a < particles.length; a++) {
+            for (let b = a + 1; b < particles.length; b++) {
+              const dx = particles[a].x - particles[b].x, dy = particles[a].y - particles[b].y, distance = Math.sqrt(dx*dx + dy*dy);
+              if (distance < 130) { const opacity = 0.18 - (distance / 130) * 0.12; ctx.beginPath(); ctx.strokeStyle = baseColor + opacity + ')'; ctx.lineWidth = 0.6; ctx.moveTo(particles[a].x, particles[a].y); ctx.lineTo(particles[b].x, particles[b].y); ctx.stroke(); }
+            }
+            if (mouse.x !== null && mouse.y !== null) {
+              const dx = particles[a].x - mouse.x, dy = particles[a].y - mouse.y, distance = Math.sqrt(dx*dx + dy*dy);
+              if (distance < mouse.radius) { const opacity = 0.35 - (distance / mouse.radius) * 0.25; ctx.beginPath(); ctx.strokeStyle = mouseColor + opacity + ')'; ctx.lineWidth = 1; ctx.moveTo(particles[a].x, particles[a].y); ctx.lineTo(mouse.x, mouse.y); ctx.stroke(); }
+            }
+          }
+        }
+        function animate() { ctx.clearRect(0, 0, canvas.width, canvas.height); for (const p of particles) { p.update(); p.draw(); } connect(); animationFrameId = requestAnimationFrame(animate); }
+        window.addEventListener('resize', () => { resize(); init(); }, { passive: true });
+        window.addEventListener('mousemove', (e) => { mouse.x = e.clientX; mouse.y = e.clientY; }, { passive: true });
+        window.addEventListener('touchmove', (e) => { if (e.touches[0]) { mouse.x = e.touches[0].clientX; mouse.y = e.touches[0].clientY; }}, { passive: true });
+        window.addEventListener('mouseout', () => { mouse.x = null; mouse.y = null; });
+        const themeObserver = new MutationObserver(() => { particles.forEach(p => p.color = getThemeColors()[Math.floor(Math.random() * getThemeColors().length)]); });
+        themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+        document.addEventListener('visibilitychange', () => { if (document.hidden) cancelAnimationFrame(animationFrameId); else animate(); });
+        init(); animate();
+      })();
+      initScrollAnimations();
+      setTimeout(() => { if (typeof highlightActiveLink === 'function') highlightActiveLink(); }, 200);
+    });
   </script>
+  
+  <style>
+    /* ===== BASE VARIABLES (Match index.html) ===== */
+    :root {
+      --primary: #2c5f4d; --accent: #e67e22; --accent-hover: #d35400;
+      --dark: #1a252f; --light: #f8f9fa;
+      --shadow: 0 4px 20px rgba(0,0,0,0.08); --shadow-hover: 0 8px 30px rgba(0,0,0,0.12);
+      --radius: 12px;
+      --bg-body: #fff; --bg-section: #f8f9fa; --text-main: #333; --text-muted: #666; --card-bg: #fff;
+      --particle-bg-start: #f8f9fa; --particle-bg-end: #e8f4f8; --input-border: #e0e0e0;
+    }
+    [data-theme="dark"] {
+      --bg-body: #121212; --bg-section: #1e1e1e; --text-main: #e0e0e0; --text-muted: #b0b0b0; --card-bg: #1e1e1e;
+      --shadow: 0 4px 20px rgba(0,0,0,0.3); --particle-bg-start: #1a252f; --particle-bg-end: #2c3e50; --input-border: #444;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6; color: var(--text-main); background: var(--bg-body);
+      overflow-x: hidden; transition: background-color 0.3s, color 0.3s;
+    }
+    a { text-decoration: none; color: inherit; transition: color 0.3s; }
+    img { max-width: 100%; display: block; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; position: relative; z-index: 2; }
+    
+    /* ===== SCROLL ANIMATIONS ===== */
+    .scroll-reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .scroll-reveal.visible { opacity: 1; transform: translateY(0); }
+    .scroll-reveal.delay-1 { transition-delay: 0.1s; }
+    .scroll-reveal.delay-2 { transition-delay: 0.2s; }
+    .scroll-reveal.delay-3 { transition-delay: 0.3s; }
+    .card-hover { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+    .card-hover:hover { transform: translateY(-8px); box-shadow: var(--shadow-hover); }
+    
+    /* ===== PAGE HERO ===== */
+    .page-hero {
+      background: linear-gradient(135deg, rgba(44,95,77,0.9), rgba(26,37,47,0.85)),
+                  url('https://images.unsplash.com/photo-1540541338287-41700207dee6?auto=format&fit=crop&w=1920&q=80') center/cover;
+      padding: 120px 0 80px; text-align: center; color: #fff;
+    }
+    .page-hero h1 {
+      font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; margin-bottom: 1rem;
+      text-shadow: 0 2px 15px rgba(0,0,0,0.4);
+    }
+    .page-hero p {
+      font-size: 1.2rem; opacity: 0.95; max-width: 600px; margin: 0 auto;
+    }
+    
+    /* ===== SECTIONS ===== */
+    section { padding: 70px 0; }
+    .section-header {
+      text-align: center; margin-bottom: 50px;
+    }
+    .section-header h2 {
+      font-size: 2.2rem; color: var(--primary); margin-bottom: 1rem; font-weight: 700;
+    }
+    .section-header p {
+      color: var(--text-muted); max-width: 600px; margin: 0 auto; font-size: 1.1rem;
+    }
+    
+    /* ===== AMENITIES GRID ===== */
+    .amenities-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+    }
+    .amenity-card {
+      background: var(--card-bg); padding: 30px; border-radius: var(--radius);
+      box-shadow: var(--shadow); color: var(--text-main);
+    }
+    .amenity-icon { font-size: 2.5rem; margin-bottom: 15px; }
+    .amenity-card h3 {
+      color: var(--primary); margin: 10px 0; font-size: 1.3rem; font-weight: 600;
+    }
+    .amenity-card p { color: var(--text-muted); margin: 15px 0; line-height: 1.6; }
+    .amenity-features {
+      list-style: none; margin: 15px 0; padding-left: 0;
+    }
+    .amenity-features li {
+      color: var(--text-muted); font-size: 0.95rem; margin: 8px 0;
+    }
+    
+    /* ===== DINING SECTION ===== */
+    .dining-bg { background: var(--bg-section); }
+    .dining-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center;
+    }
+    .dining-content h2 {
+      color: var(--primary); font-size: 2rem; margin-bottom: 1.5rem; font-weight: 700;
+    }
+    .dining-content p {
+      color: var(--text-muted); margin-bottom: 1.2rem; line-height: 1.7;
+    }
+    .dining-hours {
+      background: var(--card-bg); padding: 20px; border-radius: var(--radius);
+      margin: 25px 0; box-shadow: var(--shadow);
+    }
+    .dining-hours h4 {
+      color: var(--primary); margin-bottom: 15px; font-size: 1.1rem;
+    }
+    .dining-hours ul { list-style: none; }
+    .dining-hours li {
+      display: flex; align-items: center; gap: 10px; margin: 10px 0;
+      color: var(--text-muted);
+    }
+    .dining-hours span { font-size: 1.2rem; color: var(--accent); }
+    .btn-primary {
+      display: inline-block; background: var(--accent); color: #fff;
+      padding: 14px 28px; border-radius: 10px; font-weight: 600;
+      transition: background 0.3s; margin-top: 20px;
+    }
+    .btn-primary:hover { background: var(--accent-hover); transform: translateY(-2px); }
+    .dining-image {
+      border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-hover);
+      height: 400px; background: center/cover no-repeat;
+    }
+    
+    /* ===== EXPERIENCES GRID ===== */
+    .experiences-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 25px;
+    }
+    .experience-card {
+      background: var(--card-bg); padding: 30px; border-radius: var(--radius);
+      box-shadow: var(--shadow); color: var(--text-main); text-align: center;
+    }
+    .experience-icon { font-size: 2.5rem; margin-bottom: 15px; }
+    .experience-card h3 {
+      color: var(--primary); margin: 10px 0; font-size: 1.3rem; font-weight: 600;
+    }
+    .experience-card p { color: var(--text-muted); font-size: 0.95rem; }
+    
+    /* ===== CONVENIENCES SECTION ===== */
+    .conveniences-bg { background: var(--bg-section); }
+    .conveniences-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 25px;
+    }
+    .convenience-item {
+      background: var(--card-bg); padding: 25px; border-radius: var(--radius);
+      box-shadow: var(--shadow); color: var(--text-main); display: flex; gap: 15px; align-items: flex-start;
+    }
+    .convenience-icon { font-size: 2rem; color: var(--accent); min-width: 40px; }
+    .convenience-item h4 {
+      color: var(--primary); margin-bottom: 8px; font-size: 1.1rem; font-weight: 600;
+    }
+    .convenience-item p { color: var(--text-muted); font-size: 0.95rem; }
+    
+    /* ===== FINAL CTA ===== */
+    .final-cta-amenities {
+      text-align: center; padding: 80px 0;
+      background: linear-gradient(135deg, rgba(44,95,77,0.95), rgba(26,37,47,0.9)),
+                  url('https://images.unsplash.com/photo-1520257328597-2c6d0e7f6f8e?auto=format&fit=crop&w=1920&q=80') center/cover;
+      color: #fff;
+    }
+    .final-cta-amenities h2 {
+      font-size: clamp(1.8rem, 4vw, 2.5rem); margin-bottom: 1rem; font-weight: 700;
+    }
+    .final-cta-amenities p {
+      font-size: 1.15rem; max-width: 600px; margin: 0 auto 2rem; opacity: 0.95;
+    }
+    .btn-hero {
+      background: #fff; color: var(--primary); padding: 16px 40px;
+      border-radius: 10px; font-weight: 700; font-size: 1.1rem;
+      transition: transform 0.3s; display: inline-block;
+    }
+    .btn-hero:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+    
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 992px) {
+      .dining-grid { grid-template-columns: 1fr; }
+      .dining-image { height: 300px; }
+    }
+    @media (max-width: 768px) {
+      .page-hero { padding: 100px 0 60px; }
+      .page-hero h1 { font-size: 2.3rem; }
+      .page-hero p { font-size: 1.1rem; }
+      section { padding: 50px 0 !important; }
+      .section-header h2 { font-size: 1.8rem; }
+      .amenities-grid, .experiences-grid, .conveniences-grid { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+      .final-cta-amenities h2 { font-size: 2rem; }
+      .final-cta-amenities p { font-size: 1.05rem; }
+    }
+    @media (max-width: 480px) {
+      .page-hero h1 { font-size: 2rem; }
+      .btn-primary, .btn-hero { width: 100%; padding: 14px; }
+      .convenience-item { flex-direction: column; text-align: center; }
+    }
+    
+    /* ===== ACCESSIBILITY ===== */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important; transition-duration: 0.01ms !important;
+      }
+    }
+    a:focus-visible, button:focus-visible {
+      outline: 3px solid var(--accent); outline-offset: 2px; border-radius: 8px;
+    }
+  </style>
 </body>
 </html>
