@@ -6,7 +6,528 @@
   <meta name="description" content="Dining at Kadongo Resort — Farm-to-table cuisine, lakeside sunsets, and authentic Luo flavors crafted for your pleasure.">
   <title>Dining | Kadongo Resort - Mfangano Island</title>
   
-  <!-- Critical: Particle canvas must not block header clicks -->
+  <!-- 🌐 FONTS -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  
+  <!-- 🛠️ LIBRARIES -->
+  <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+  <!-- 🎨 CRITICAL CSS -->
+  <style>
+    :root {
+      --font-serif: 'Playfair Display', serif;
+      --font-sans: 'Lato', sans-serif;
+      --color-bg: #F9F8F6;
+      --color-text: #2C2C2C;
+      --color-text-light: #5A5A5A;
+      --color-accent: #B88B4A;
+      --color-overlay: rgba(20, 20, 20, 0.5);
+      --spacing-section: 140px;
+    }
+
+    [data-theme="dark"] {
+      --color-bg: #0F1115;
+      --color-text: #E8E8E8;
+      --color-text-light: #B0B0B0;
+      --color-overlay: rgba(0, 0, 0, 0.7);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    html.lenis { height: auto; }
+    .lenis.lenis-smooth { scroll-behavior: auto; }
+    .lenis.lenis-stopped { overflow: hidden; }
+
+    body {
+      font-family: var(--font-sans);
+      background-color: var(--color-bg);
+      color: var(--color-text);
+      line-height: 1.8;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: var(--font-serif);
+      font-weight: 400;
+      line-height: 1.2;
+      color: var(--color-text);
+    }
+
+    a { text-decoration: none; color: inherit; transition: all 0.3s ease; }
+    img, video { max-width: 100%; display: block; object-fit: cover; }
+
+    /* ===== UTILITIES ===== */
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 40px;
+      position: relative;
+      z-index: 2;
+    }
+    .uppercase { text-transform: uppercase; letter-spacing: 3px; font-size: 0.75rem; font-weight: 700; color: var(--color-accent); }
+
+    /* ===== BUTTONS ===== */
+    .btn-luxury {
+      display: inline-block;
+      padding: 20px 50px;
+      border: 1px solid rgba(255,255,255,0.4);
+      color: #fff;
+      font-family: var(--font-sans);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(10px);
+      cursor: pointer;
+    }
+    .btn-luxury::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; width: 0%; height: 100%;
+      background: var(--color-accent);
+      transition: width 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      z-index: -1;
+    }
+    .btn-luxury:hover { 
+      color: #fff; 
+      border-color: var(--color-accent);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 40px rgba(184, 139, 74, 0.4);
+    }
+    .btn-luxury:hover::before { width: 100%; }
+    
+    .btn-luxury.dark {
+      border-color: var(--color-text);
+      color: var(--color-text);
+      background: rgba(0,0,0,0.05);
+    }
+    .btn-luxury.dark:hover { 
+      color: #fff;
+      border-color: var(--color-accent);
+    }
+    .btn-luxury.dark::before { background: var(--color-accent); }
+
+    .btn-primary {
+      display: inline-block;
+      padding: 18px 45px;
+      background: var(--color-accent);
+      color: #fff;
+      font-family: var(--font-sans);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      border: none;
+      transition: all 0.4s ease;
+      cursor: pointer;
+    }
+    .btn-primary:hover {
+      background: #9A7035;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(184, 139, 74, 0.5);
+    }
+
+    /* ===== HERO SECTION ===== */
+    .hero {
+      height: 100vh;
+      width: 100%;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .hero-video {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      object-fit: cover;
+      z-index: 1;
+    }
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.7));
+      z-index: 2;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 3;
+      text-align: center;
+      color: #fff;
+      max-width: 900px;
+      padding: 0 20px;
+    }
+    .hero-title {
+      font-size: clamp(3rem, 6vw, 5rem);
+      margin-bottom: 25px;
+      opacity: 0;
+      transform: translateY(40px);
+      font-style: italic;
+    }
+    .hero-subtitle {
+      font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+      font-weight: 300;
+      margin-bottom: 50px;
+      opacity: 0;
+      transform: translateY(40px);
+    }
+
+    /* ===== SECTIONS ===== */
+    section {
+      padding: var(--spacing-section) 0;
+      position: relative;
+    }
+
+    /* ===== VENUES SECTION (Video Background) ===== */
+    .venues {
+      position: relative;
+      padding: 150px 0;
+      color: #fff;
+      overflow: hidden;
+    }
+    .venues-video {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      object-fit: cover;
+      z-index: 1;
+    }
+    .venues-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      z-index: 2;
+    }
+    .venues-content {
+      position: relative;
+      z-index: 3;
+    }
+    .venues-header {
+      text-align: center;
+      margin-bottom: 80px;
+    }
+    .venues-header h2 {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      margin-bottom: 20px;
+      color: var(--color-accent);
+    }
+    .venues-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 50px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .venue-card {
+      background: rgba(255,255,255,0.08);
+      padding: 50px 40px;
+      border: 1px solid rgba(255,255,255,0.15);
+      backdrop-filter: blur(10px);
+      transition: all 0.4s ease;
+    }
+    .venue-card:hover {
+      background: rgba(255,255,255,0.12);
+      border-color: var(--color-accent);
+      transform: translateY(-5px);
+    }
+    .venue-badge {
+      display: inline-block;
+      background: var(--color-accent);
+      color: #fff;
+      padding: 6px 15px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 20px;
+    }
+    .venue-title {
+      font-family: var(--font-serif);
+      font-size: 2rem;
+      margin-bottom: 20px;
+      color: #fff;
+    }
+    .venue-tags {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 25px;
+    }
+    .venue-tags span {
+      background: rgba(255,255,255,0.15);
+      padding: 6px 12px;
+      border-radius: 15px;
+      font-size: 0.8rem;
+    }
+    .venue-desc {
+      font-size: 1rem;
+      opacity: 0.9;
+      line-height: 1.8;
+      margin-bottom: 25px;
+    }
+    .venue-special {
+      background: rgba(184, 139, 74, 0.2);
+      padding: 15px 20px;
+      border-left: 3px solid var(--color-accent);
+      margin: 25px 0;
+      font-style: italic;
+      opacity: 0.95;
+    }
+
+    /* ===== HOURS SECTION (Split Layout) ===== */
+    .hours {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 90vh;
+      align-items: center;
+      background: #fff;
+    }
+    .hours-img-wrapper {
+      height: 100vh;
+      overflow: hidden;
+    }
+    .hours-img {
+      width: 100%;
+      height: 120%;
+      object-fit: cover;
+      transform: translateY(-10%);
+    }
+    .hours-text {
+      padding: 0 100px 0 60px;
+    }
+    .section-label {
+      margin-bottom: 25px;
+      display: block;
+    }
+    .section-title {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      margin-bottom: 35px;
+    }
+    .section-desc {
+      font-size: 1.15rem;
+      color: var(--color-text-light);
+      margin-bottom: 30px;
+      line-height: 1.9;
+    }
+    .hours-list {
+      list-style: none;
+      margin: 30px 0;
+    }
+    .hours-list li {
+      padding: 15px 0;
+      border-bottom: 1px solid rgba(0,0,0,0.1);
+      font-size: 1.05rem;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .hours-list li span {
+      font-size: 1.2rem;
+    }
+
+    /* ===== MENU SECTION ===== */
+    .menu {
+      background: var(--color-bg);
+      padding: 150px 0;
+    }
+    .menu-header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+    .menu-header h2 {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      margin-bottom: 20px;
+    }
+    .menu-tabs {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 50px;
+    }
+    .tab-btn {
+      padding: 14px 35px;
+      border: 1px solid rgba(0,0,0,0.15);
+      background: transparent;
+      color: var(--color-text);
+      font-family: var(--font-sans);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.4s ease;
+    }
+    .tab-btn:hover,
+    .tab-btn.active {
+      border-color: var(--color-accent);
+      background: var(--color-accent);
+      color: #fff;
+    }
+    [data-theme="dark"] .tab-btn {
+      border-color: rgba(255,255,255,0.2);
+      color: var(--color-text);
+    }
+    .menu-content {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .tab-panel {
+      display: none;
+    }
+    .tab-panel.active {
+      display: block;
+      animation: fadeIn 0.5s ease;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .menu-item {
+      background: #fff;
+      padding: 30px;
+      margin-bottom: 20px;
+      box-shadow: 0 5px 30px rgba(0,0,0,0.08);
+      transition: transform 0.3s ease;
+    }
+    [data-theme="dark"] .menu-item {
+      background: #1a1a1a;
+    }
+    .menu-item:hover {
+      transform: translateX(10px);
+    }
+    .menu-item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .menu-item-header h4 {
+      font-family: var(--font-serif);
+      font-size: 1.4rem;
+      color: var(--color-text);
+    }
+    .menu-price {
+      color: var(--color-accent);
+      font-weight: 700;
+      font-size: 1.3rem;
+      font-family: var(--font-serif);
+    }
+    .menu-item p {
+      color: var(--color-text-light);
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+
+    /* ===== EXPERIENCE CTA ===== */
+    .experience-cta {
+      background: linear-gradient(135deg, #1a1a1a 0%, #2C2C2C 100%);
+      color: #fff;
+      padding: 150px 0;
+      text-align: center;
+    }
+    .experience-cta h2 {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      margin-bottom: 25px;
+      color: var(--color-accent);
+    }
+    .experience-cta p {
+      max-width: 700px;
+      margin: 0 auto 50px;
+      font-size: 1.15rem;
+      opacity: 0.85;
+      line-height: 1.8;
+    }
+
+    /* ===== DIETARY INFO ===== */
+    .dietary {
+      background: #fff;
+      padding: 100px 0;
+      text-align: center;
+    }
+    [data-theme="dark"] .dietary {
+      background: #1a1a1a;
+    }
+    .dietary h3 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+    .dietary p {
+      max-width: 600px;
+      margin: 0 auto 30px;
+      color: var(--color-text-light);
+      font-size: 1.1rem;
+    }
+
+    /* ===== FINAL CTA ===== */
+    .final-cta {
+      height: 80vh;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: #fff;
+    }
+    .final-cta-bg {
+      position: absolute;
+      inset: 0;
+      background: url('https://images.unsplash.com/photo-1520257328597-2c6d0e7f6f8e?auto=format&fit=crop&w=1920&q=80') center/cover;
+      z-index: 1;
+    }
+    .final-cta-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      z-index: 2;
+    }
+    .final-cta-content {
+      position: relative;
+      z-index: 3;
+    }
+    .final-cta h2 {
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      margin-bottom: 25px;
+      font-style: italic;
+      color: #fff;
+    }
+    .final-cta p {
+      font-size: 1.25rem;
+      margin-bottom: 50px;
+      opacity: 0.9;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 992px) {
+      .hours { grid-template-columns: 1fr; }
+      .hours-img-wrapper { height: 60vh; }
+      .hours-text { padding: 80px 40px; }
+      .container { padding: 0 25px; }
+    }
+    @media (max-width: 768px) {
+      .hero-title { font-size: 3rem; }
+      .hero-subtitle { font-size: 1.1rem; }
+      .venues-grid { grid-template-columns: 1fr; }
+      .menu-tabs { flex-wrap: wrap; }
+      .tab-btn { padding: 12px 25px; font-size: 0.7rem; }
+      .menu-item-header { flex-direction: column; align-items: flex-start; }
+    }
+    @media (max-width: 480px) {
+      .venue-title { font-size: 1.6rem; }
+      .btn-luxury, .btn-primary { width: 100%; padding: 18px 35px; }
+    }
+  </style>
+
+  <!-- 🛡️ PROTECT HEADER CLICKS -->
   <style>
     #particle-canvas { pointer-events: none !important; z-index: -1 !important; position: fixed; top: 0; left: 0; width: 100%; height: 100%; }
     #header-placeholder { position: relative; z-index: 10000; }
@@ -15,601 +536,423 @@
 </head>
 <body>
 
-  <!-- 🌟 PARTICLE BACKGROUND CANVAS -->
+  <!-- 🌟 PARTICLE BACKGROUND -->
   <canvas id="particle-canvas" aria-hidden="true"></canvas>
 
   <!-- Dynamic Header -->
   <div id="header-placeholder"></div>
 
-  <!-- 🎯 MAIN CONTENT -->
   <main>
     
-    <!-- Page Hero -->
-    <section class="page-hero">
-      <div class="container">
-        <h1 class="scroll-reveal">Dining at Kadongo</h1>
-        <p class="scroll-reveal delay-1">Farm-to-table cuisine, lakeside sunsets, and authentic Luo flavors crafted for your pleasure.</p>
+    <!-- 🎬 HERO SECTION -->
+    <section class="hero">
+      <video class="hero-video" autoplay muted loop playsinline poster="https://images.unsplash.com/photo-1540541338287-41700207dee6?auto=format&fit=crop&w=1920&q=80">
+        <source src="https://videos.pexels.com/video-files/5829129/5829129-uhd_2560_1440_25fps.mp4" type="video/mp4">
+      </video>
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <h1 class="hero-title">Dining at Kadongo</h1>
+        <p class="hero-subtitle">Farm-to-table cuisine, lakeside sunsets, and authentic Luo flavors crafted for your pleasure.</p>
       </div>
     </section>
-    
-    <!-- Dining Venues -->
-    <section class="container">
-      <div class="venues-grid">
-        
-        <div class="venue-card card-hover scroll-reveal delay-1">
-          <div class="venue-badge">Signature</div>
-          <div class="venue-image" style="background-image:url('https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=800&q=80')"></div>
-          <div class="venue-content">
-            <h3>Ziwa Restaurant</h3>
+
+    <!-- 🍽️ VENUES SECTION (Video Background) -->
+    <section class="venues">
+      <video class="venues-video" autoplay muted loop playsinline>
+        <source src="https://videos.pexels.com/video-files/3209829/3209829-uhd_2560_1440_24fps.mp4" type="video/mp4">
+      </video>
+      <div class="venues-overlay"></div>
+      <div class="container venues-content">
+        <div class="venues-header">
+          <span class="section-label uppercase" style="color: var(--color-accent);">Culinary Excellence</span>
+          <h2>Our Dining Venues</h2>
+          <p style="opacity: 0.85; max-width: 600px; margin: 0 auto; font-size: 1.1rem;">
+            Each venue offers a unique culinary journey celebrating local flavors and lakeside beauty.
+          </p>
+        </div>
+        <div class="venues-grid">
+          
+          <div class="venue-card">
+            <span class="venue-badge">Signature</span>
+            <h3 class="venue-title">Ziwa Restaurant</h3>
             <div class="venue-tags">
               <span>🍽️ Farm-to-Table</span>
               <span>🌅 Lakeside Views</span>
             </div>
-            <p>Our flagship restaurant serves contemporary African cuisine featuring fresh Nile Perch, organic garden produce, and traditional Luo dishes reimagined for the modern palate.</p>
-            <p class="chef-special"><strong>Chef's Special:</strong> Grilled Tilapia with Sukuma Wiki & Ugali, finished with tamarind glaze.</p>
-            <a href="#reserve" class="btn-primary">Reserve a Table</a>
+            <p class="venue-desc">
+              Our flagship restaurant serves contemporary African cuisine featuring fresh Nile Perch, 
+              organic garden produce, and traditional Luo dishes reimagined for the modern palate.
+            </p>
+            <div class="venue-special">
+              <strong>Chef's Special:</strong> Grilled Tilapia with Sukuma Wiki & Ugali, finished with tamarind glaze.
+            </div>
+            <a href="#reserve" class="btn-luxury">Reserve a Table</a>
           </div>
-        </div>
-        
-        <div class="venue-card card-hover scroll-reveal delay-2">
-          <div class="venue-badge">Open 4PM</div>
-          <div class="venue-image" style="background-image:url('https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=800&q=80')"></div>
-          <div class="venue-content">
-            <h3>Sunset Bar</h3>
+          
+          <div class="venue-card">
+            <span class="venue-badge">Open 4PM</span>
+            <h3 class="venue-title">Sunset Bar</h3>
             <div class="venue-tags">
               <span>🍹 Craft Cocktails</span>
               <span>🎵 Live Music</span>
             </div>
-            <p>Watch the sun dip below Lake Victoria while sipping handcrafted cocktails, local wines, and artisanal beers. Live acoustic performances Thursday-Saturday evenings.</p>
-            <p class="chef-special"><strong>Must-Try:</strong> "Mfangano Sunset" — local gin, passion fruit, hibiscus, and a hint of chili.</p>
-            <a href="#reserve" class="btn-primary">Book a Spot</a>
+            <p class="venue-desc">
+              Watch the sun dip below Lake Victoria while sipping handcrafted cocktails, local wines, 
+              and artisanal beers. Live acoustic performances Thursday-Saturday evenings.
+            </p>
+            <div class="venue-special">
+              <strong>Must-Try:</strong> "Mfangano Sunset" — local gin, passion fruit, hibiscus, and a hint of chili.
+            </div>
+            <a href="#reserve" class="btn-luxury">Book a Spot</a>
           </div>
-        </div>
-        
-        <div class="venue-card card-hover scroll-reveal delay-3">
-          <div class="venue-badge">By Request</div>
-          <div class="venue-image" style="background-image:url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=80')"></div>
-          <div class="venue-content">
-            <h3>Private Dining</h3>
+          
+          <div class="venue-card">
+            <span class="venue-badge">By Request</span>
+            <h3 class="venue-title">Private Dining</h3>
             <div class="venue-tags">
               <span>🕯️ Romantic</span>
               <span>👨‍👩‍👧‍👦 Groups</span>
             </div>
-            <p>Celebrate special moments with bespoke dining experiences: beachside dinners under the stars, garden picnics, or intimate chef's table sessions in our wine cellar.</p>
-            <p class="chef-special"><strong>Includes:</strong> Personalized menu, dedicated server, and custom décor.</p>
-            <a href="#reserve" class="btn-primary">Arrange Experience</a>
+            <p class="venue-desc">
+              Celebrate special moments with bespoke dining experiences: beachside dinners under the stars, 
+              garden picnics, or intimate chef's table sessions in our wine cellar.
+            </p>
+            <div class="venue-special">
+              <strong>Includes:</strong> Personalized menu, dedicated server, and custom décor.
+            </div>
+            <a href="#reserve" class="btn-luxury">Arrange Experience</a>
           </div>
+          
+        </div>
+      </div>
+    </section>
+
+    <!-- 🕐 HOURS SECTION (Split Layout) -->
+    <section class="hours">
+      <div class="hours-img-wrapper">
+        <img src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=800&q=80" alt="Lakeside Dining" class="hours-img" data-speed="0.8">
+      </div>
+      <div class="hours-text">
+        <span class="section-label uppercase">Opening Hours</span>
+        <h2 class="section-title">Plan Your Dining</h2>
+        <p class="section-desc">
+          Our culinary team is dedicated to serving you throughout your stay with flexible dining options 
+          and exceptional service.
+        </p>
+        
+        <h3 style="font-family: var(--font-serif); font-size: 1.6rem; margin: 30px 0 20px;">🍽️ Ziwa Restaurant</h3>
+        <ul class="hours-list">
+          <li><span>🍳</span> Breakfast: 7:00 AM - 10:30 AM</li>
+          <li><span>🥗</span> Lunch: 12:30 PM - 3:00 PM</li>
+          <li><span>🍽️</span> Dinner: 7:00 PM - 10:00 PM</li>
+          <li><span>🌙</span> Late-night room service available</li>
+        </ul>
+        
+        <h3 style="font-family: var(--font-serif); font-size: 1.6rem; margin: 30px 0 20px;">🍹 Sunset Bar</h3>
+        <ul class="hours-list">
+          <li><span>🕐</span> Open Daily: 4:00 PM - 12:00 AM</li>
+          <li><span>🍸</span> Happy Hour: 4:00 PM - 6:00 PM</li>
+          <li><span>🎶</span> Live Music: Thu-Sat, 7:00 PM</li>
+        </ul>
+        
+        <h3 style="font-family: var(--font-serif); font-size: 1.6rem; margin: 30px 0 20px;">🧺 In-Room Dining</h3>
+        <ul class="hours-list">
+          <li><span>🍳</span> Breakfast: 6:30 AM - 11:00 AM</li>
+          <li><span>🕐</span> All Day: 11:00 AM - 10:00 PM</li>
+          <li><span>📞</span> Dial "0" from your room</li>
+        </ul>
+        
+        <a href="dining.html" class="btn-luxury dark" style="margin-top: 30px;">View Full Menu</a>
+      </div>
+    </section>
+
+    <!-- 📋 MENU SECTION -->
+    <section class="menu">
+      <div class="container">
+        <div class="menu-header">
+          <span class="section-label uppercase">Culinary Journey</span>
+          <h2>Menu Highlights</h2>
+          <p class="section-desc" style="margin: 0 auto;">
+            A taste of what awaits. Full menus available at each venue.
+          </p>
         </div>
         
+        <div class="menu-tabs">
+          <button class="tab-btn active" data-tab="starters">Starters</button>
+          <button class="tab-btn" data-tab="mains">Main Courses</button>
+          <button class="tab-btn" data-tab="desserts">Desserts</button>
+          <button class="tab-btn" data-tab="drinks">Drinks</button>
+        </div>
+        
+        <div class="menu-content">
+          
+          <div class="tab-panel active" id="starters">
+            <div class="menu-item">
+              <div class="menu-item-header">
+                <h4>Grilled Octopus</h4>
+                <span class="menu-price">$18</span>
+              </div>
+              <p>Lake Victoria octopus, chili-lime marinade, roasted sweet potato, coconut slaw.</p>
+            </div>
+            <div class="menu-item">
+              <div class="menu-item-header">
+                <h4>Garden Salad</h4>
+                <span class="menu-price">$14</span>
+              </div>
+              <p>Organic greens from our farm, avocado, goat cheese, hibiscus vinaigrette.</p>
+            </div>
+            <div class="menu-item">
+              <div class="menu-item-header">
+                <h4>Samosa Platter</h4>
+                <span class="menu-price">$12</span>
+              </div>
+              <p>Crispy Luo-style samosas, tamarind chutney, mango salsa. (V)</p>
+            </div>
+          </div>
+          
+          <div class="tab-panel" id="mains">
+            <div class="menu-item">
+              <div class="menu-item-header">
+                <h4>Nile Perch Fillet</h4>
+                <span class="menu-price">$32</span>
+              </div>
+              <p>Pan-seared perch, lemon-herb butter, seasonal vegetables, ugali croquette.</p>
+            </div>
+            <div class="menu-item">
+              <div class="menu-item-header">
+                <h4>Grilled Ribeye</h4>
+                <span class="menu-price">$38</span>
+              </div>
+              <p>28-day aged beef, rosemary jus, truffle mash, grilled asparagus.</p>
+            </div>
+            <div class="menu-item">
+              <div class="menu-item-header">
+                <h4>Vegetable Tagine</h4>
+                <span class="menu-price">$24</span>
+              </div>
+              <p>Slow-cooked seasonal vegetables, apricot, almonds, couscous. (V) (GF)</p>
+            </div>
+          </div>
+          
+          <div class="tab-panel" id="desserts">
+            <div class="menu-item">
+              <div class="menu-item-header">
+                <h4>Passion Fruit Tart</h4>
+                <span class="menu-price">$14</span>
+              </div>
+              <p>Tangy passion curd, coconut cream, shortbread base, edible flowers.</p>
+            </div>
+            <div class="menu-item">
+              <div class="menu-item-header">
+                <h4>Chocolate Lava Cake</h4>
+                <span class="menu-price">$16</span>
+              </div>
+              <p>Warm dark chocolate center, vanilla bean ice cream, berry compote.</p>
+            </div>
+          </div>
+          
+          <div class="tab-panel" id="drinks">
+            <div class="menu-item">
+              <div class="menu-item-header">
+                <h4>Mfangano Sunset</h4>
+                <span class="menu-price">$15</span>
+              </div>
+              <p>Local gin, passion fruit, hibiscus syrup, lime, chili rim. 🍸</p>
+            </div>
+            <div class="menu-item">
+              <div class="menu-item-header">
+                <h4>Lake Victoria Lager</h4>
+                <span class="menu-price">$8</span>
+              </div>
+              <p>Crisp local craft beer, brewed with lake water. 🍺</p>
+            </div>
+          </div>
+          
+        </div>
+        
+        <div style="text-align: center; margin-top: 50px;">
+          <a href="#" class="btn-luxury dark">View Full Menus →</a>
+        </div>
       </div>
     </section>
-    
-    <!-- Opening Hours -->
-    <section class="hours-bg">
+
+    <!-- ✨ EXPERIENCE CTA -->
+    <section class="experience-cta">
       <div class="container">
-        <div class="section-header scroll-reveal">
-          <h2>Opening Hours</h2>
-          <p>Plan your dining experience with our convenient schedules.</p>
-        </div>
-        <div class="hours-grid">
-          <div class="hours-card card-hover scroll-reveal delay-1">
-            <h3>🍽️ Ziwa Restaurant</h3>
-            <ul>
-              <li><span>🍳</span> Breakfast: 7:00 AM - 10:30 AM</li>
-              <li><span>🥗</span> Lunch: 12:30 PM - 3:00 PM</li>
-              <li><span>🍽️</span> Dinner: 7:00 PM - 10:00 PM</li>
-              <li><span>🌙</span> Late-night room service available</li>
-            </ul>
-          </div>
-          <div class="hours-card card-hover scroll-reveal delay-2">
-            <h3>🍹 Sunset Bar</h3>
-            <ul>
-              <li><span>🕐</span> Open Daily: 4:00 PM - 12:00 AM</li>
-              <li><span>🍸</span> Happy Hour: 4:00 PM - 6:00 PM</li>
-              <li><span>🎶</span> Live Music: Thu-Sat, 7:00 PM</li>
-              <li><span>🎵</span> Acoustic sets by local artists</li>
-            </ul>
-          </div>
-          <div class="hours-card card-hover scroll-reveal delay-3">
-            <h3>🧺 In-Room Dining</h3>
-            <ul>
-              <li><span>🍳</span> Breakfast: 6:30 AM - 11:00 AM</li>
-              <li><span>🕐</span> All Day: 11:00 AM - 10:00 PM</li>
-              <li><span>🌙</span> Late Night: 10:00 PM - 2:00 AM</li>
-              <li><span>📞</span> Dial "0" from your room</li>
-            </ul>
-          </div>
-        </div>
+        <span class="section-label uppercase" style="color: var(--color-accent);">Bespoke Experiences</span>
+        <h2>Create Your Perfect Dining Moment</h2>
+        <p>
+          From romantic beach dinners to family celebrations, our culinary team crafts bespoke experiences 
+          tailored to your vision. Let us handle every detail.
+        </p>
+        <a href="booking.html?request=dining" class="btn-luxury">Plan Your Experience</a>
       </div>
     </section>
-    
-    <!-- Menu Highlights -->
-    <section class="container">
-      <div class="section-header scroll-reveal">
-        <h2>Menu Highlights</h2>
-        <p>A taste of what awaits. Full menus available at each venue.</p>
-      </div>
-      <div class="menu-tabs scroll-reveal">
-        <button class="tab-btn active" data-tab="starters">Starters</button>
-        <button class="tab-btn" data-tab="mains">Main Courses</button>
-        <button class="tab-btn" data-tab="desserts">Desserts</button>
-        <button class="tab-btn" data-tab="drinks">Drinks</button>
-      </div>
-      <div class="menu-content">
-        <div class="tab-panel active" id="starters">
-          <div class="menu-item card-hover">
-            <div class="menu-item-header">
-              <h4>Grilled Octopus</h4>
-              <span class="menu-price">$18</span>
-            </div>
-            <p>Lake Victoria octopus, chili-lime marinade, roasted sweet potato, coconut slaw.</p>
-          </div>
-          <div class="menu-item card-hover">
-            <div class="menu-item-header">
-              <h4>Garden Salad</h4>
-              <span class="menu-price">$14</span>
-            </div>
-            <p>Organic greens from our farm, avocado, goat cheese, hibiscus vinaigrette.</p>
-          </div>
-          <div class="menu-item card-hover">
-            <div class="menu-item-header">
-              <h4>Samosa Platter</h4>
-              <span class="menu-price">$12</span>
-            </div>
-            <p>Crispy Luo-style samosas, tamarind chutney, mango salsa. (V)</p>
-          </div>
-        </div>
-        <div class="tab-panel" id="mains">
-          <div class="menu-item card-hover">
-            <div class="menu-item-header">
-              <h4>Nile Perch Fillet</h4>
-              <span class="menu-price">$32</span>
-            </div>
-            <p>Pan-seared perch, lemon-herb butter, seasonal vegetables, ugali croquette.</p>
-          </div>
-          <div class="menu-item card-hover">
-            <div class="menu-item-header">
-              <h4>Grilled Ribeye</h4>
-              <span class="menu-price">$38</span>
-            </div>
-            <p>28-day aged beef, rosemary jus, truffle mash, grilled asparagus.</p>
-          </div>
-          <div class="menu-item card-hover">
-            <div class="menu-item-header">
-              <h4>Vegetable Tagine</h4>
-              <span class="menu-price">$24</span>
-            </div>
-            <p>Slow-cooked seasonal vegetables, apricot, almonds, couscous. (V) (GF)</p>
-          </div>
-        </div>
-        <div class="tab-panel" id="desserts">
-          <div class="menu-item card-hover">
-            <div class="menu-item-header">
-              <h4>Passion Fruit Tart</h4>
-              <span class="menu-price">$14</span>
-            </div>
-            <p>Tangy passion curd, coconut cream, shortbread base, edible flowers.</p>
-          </div>
-          <div class="menu-item card-hover">
-            <div class="menu-item-header">
-              <h4>Chocolate Lava Cake</h4>
-              <span class="menu-price">$16</span>
-            </div>
-            <p>Warm dark chocolate center, vanilla bean ice cream, berry compote.</p>
-          </div>
-        </div>
-        <div class="tab-panel" id="drinks">
-          <div class="menu-item card-hover">
-            <div class="menu-item-header">
-              <h4>Mfangano Sunset</h4>
-              <span class="menu-price">$15</span>
-            </div>
-            <p>Local gin, passion fruit, hibiscus syrup, lime, chili rim. 🍸</p>
-          </div>
-          <div class="menu-item card-hover">
-            <div class="menu-item-header">
-              <h4>Lake Victoria Lager</h4>
-              <span class="menu-price">$8</span>
-            </div>
-            <p>Crisp local craft beer, brewed with lake water. 🍺</p>
-          </div>
-        </div>
-      </div>
-      <div class="scroll-reveal" style="text-align:center;margin-top:30px;">
-        <a href="#" class="btn-link">View Full Menus →</a>
-      </div>
-    </section>
-    
-    <!-- Special Experiences -->
-    <section class="experiences-bg">
+
+    <!-- 🥗 DIETARY INFO -->
+    <section class="dietary">
       <div class="container">
-        <div class="section-header scroll-reveal">
-          <h2>✨ Create Your Perfect Dining Moment</h2>
-          <p>From romantic beach dinners to family celebrations, our culinary team crafts bespoke experiences tailored to your vision. Let us handle every detail.</p>
-        </div>
-        <div class="scroll-reveal" style="text-align:center;">
-          <a href="booking.html?request=dining" class="btn-hero">Plan Your Experience</a>
-        </div>
-      </div>
-    </section>
-    
-    <!-- Dietary Info -->
-    <section class="container">
-      <div class="dietary-info scroll-reveal">
         <h3>Dietary Requirements?</h3>
-        <p>We gladly accommodate vegetarian, vegan, gluten-free, halal, and allergy-specific requests. Please inform us at time of reservation.</p>
-        <a href="contact.html" class="btn-link">Contact Our Culinary Team →</a>
+        <p>
+          We gladly accommodate vegetarian, vegan, gluten-free, halal, and allergy-specific requests. 
+          Please inform us at time of reservation.
+        </p>
+        <a href="contact.html" class="btn-luxury dark">Contact Our Culinary Team →</a>
       </div>
     </section>
-    
-    <!-- Final CTA -->
-    <section class="final-cta-dining">
-      <div class="container">
-        <h2 class="scroll-reveal">Ready to Savor Paradise?</h2>
-        <p class="scroll-reveal delay-1">Every meal at Kadongo Resort is a celebration of local flavors and lakeside beauty.</p>
-        <a href="booking.html" class="btn-hero scroll-reveal delay-2">Reserve Your Table</a>
-        <p class="contact-note scroll-reveal delay-3">📧 dining@kadongoresort.com • 📞 +254 7XX XXX XXX</p>
+
+    <!-- 🎯 FINAL CTA -->
+    <section class="final-cta">
+      <div class="final-cta-bg"></div>
+      <div class="final-cta-overlay"></div>
+      <div class="final-cta-content">
+        <h2>Ready to Savor Paradise?</h2>
+        <p>Every meal at Kadongo Resort is a celebration of local flavors and lakeside beauty.</p>
+        <a href="booking.html" class="btn-luxury">Reserve Your Table</a>
+        <p style="margin-top: 30px; font-size: 1rem; opacity: 0.85;">
+          📧 dining@kadongoresort.com • 📞 +254 7XX XXX XXX
+        </p>
       </div>
     </section>
-    
+
   </main>
 
   <!-- Dynamic Footer -->
   <div id="footer-placeholder"></div>
 
-  <!-- Main Script Loader -->
+  <!-- 🧠 LOGIC SCRIPT -->
   <script src="script.js"></script>
 
-  <!-- Page-Specific JavaScript & CSS -->
+  <!-- 🎬 PAGE ANIMATIONS -->
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', () => {
       
-      // ===== SCROLL REVEAL ANIMATIONS =====
-      function initScrollAnimations() {
-        const observer = new IntersectionObserver((entries) => {
-          entries.forEach(entry => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add('visible');
-              observer.unobserve(entry.target);
-            }
-          });
-        }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
-        document.querySelectorAll('.scroll-reveal').forEach(el => observer.observe(el));
+      // 1. Initialize Smooth Scroll (Lenis)
+      const lenis = new Lenis({
+        duration: 1.4,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        direction: 'vertical',
+        gestureDirection: 'vertical',
+        smooth: true,
+        mouseMultiplier: 1,
+        smoothTouch: false,
+        touchMultiplier: 2,
+      });
+
+      function raf(time) {
+        lenis.raf(time);
+        requestAnimationFrame(raf);
       }
+      requestAnimationFrame(raf);
+
+      // 2. Initialize GSAP ScrollTrigger
+      gsap.registerPlugin(ScrollTrigger);
+
+      // Hero Animations
+      const tl = gsap.timeline();
+      tl.to('.hero-title', { opacity: 1, y: 0, duration: 1.2, ease: 'power3.out', delay: 0.5 })
+        .to('.hero-subtitle', { opacity: 1, y: 0, duration: 1.2, ease: 'power3.out' }, '-=0.9');
+
+      // Parallax Effects
+      gsap.utils.toArray('[data-speed]').forEach(layer => {
+        const speed = layer.getAttribute('data-speed');
+        gsap.to(layer, {
+          y: (i, target) => ScrollTrigger.maxScroll(window) * speed * 0.1,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: 'body',
+            start: 'top top',
+            end: 'bottom bottom',
+            scrub: 0
+          }
+        });
+      });
+
+      // Fade In Elements
+      gsap.utils.toArray('.section-label, .section-title, .section-desc, .venue-card, .menu-item').forEach(elem => {
+        gsap.from(elem, {
+          opacity: 0,
+          y: 40,
+          duration: 1.2,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: elem,
+            start: 'top 85%',
+          }
+        });
+      });
+
+      // 3. Menu Tabs Functionality
+      const tabBtns = document.querySelectorAll('.tab-btn');
+      const tabPanels = document.querySelectorAll('.tab-panel');
       
-      // ===== MENU TABS FUNCTIONALITY =====
-      function initMenuTabs() {
-        const tabBtns = document.querySelectorAll('.tab-btn');
-        const tabPanels = document.querySelectorAll('.tab-panel');
-        
-        tabBtns.forEach(btn => {
-          btn.addEventListener('click', function() {
-            tabBtns.forEach(b => b.classList.remove('active'));
-            this.classList.add('active');
-            
-            const tabId = this.dataset.tab;
-            tabPanels.forEach(panel => {
-              panel.classList.toggle('active', panel.id === tabId);
-            });
+      tabBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+          tabBtns.forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+          
+          const tabId = this.dataset.tab;
+          tabPanels.forEach(panel => {
+            panel.classList.toggle('active', panel.id === tabId);
           });
         });
-      }
-      
-      // ===== PARTICLE NETWORK ANIMATION =====
+      });
+
+      // 4. Particle Animation
       (function initParticles() {
         const canvas = document.getElementById('particle-canvas');
-        if (!canvas || !canvas.getContext) return;
+        if (!canvas) return;
         const ctx = canvas.getContext('2d');
-        let particles = [];
-        let mouse = { x: null, y: null, radius: 180 };
-        let animationFrameId;
-        const lightColors = ['#2c5f4d', '#e67e22', '#3498db', '#95a5a6'];
-        const darkColors = ['#4dd0e1', '#ff9800', '#81d4fa', '#bdbdbd'];
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
         
-        function getThemeColors() {
-          return document.documentElement.getAttribute('data-theme') === 'dark' ? darkColors : lightColors;
-        }
-        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        let particles = [];
+        const particleCount = 40;
         
         class Particle {
-          constructor() { this.reset(); }
-          reset() {
+          constructor() {
             this.x = Math.random() * canvas.width;
             this.y = Math.random() * canvas.height;
-            this.size = Math.random() * 2.5 + 1;
-            this.originalSize = this.size;
-            this.speedX = (Math.random() - 0.5) * 0.6;
-            this.speedY = (Math.random() - 0.5) * 0.6;
-            this.color = getThemeColors()[Math.floor(Math.random() * getThemeColors().length)];
-            this.opacity = Math.random() * 0.4 + 0.3;
+            this.size = Math.random() * 2;
+            this.speedX = (Math.random() - 0.5) * 0.2;
+            this.speedY = (Math.random() - 0.5) * 0.2;
+            this.opacity = Math.random() * 0.5;
           }
           update() {
-            if (mouse.x !== null && mouse.y !== null) {
-              const dx = mouse.x - this.x, dy = mouse.y - this.y, distance = Math.sqrt(dx*dx + dy*dy);
-              if (distance < mouse.radius) {
-                const force = (mouse.radius - distance) / mouse.radius;
-                this.x += dx * 0.02 * force; this.y += dy * 0.02 * force;
-                this.size = this.originalSize + force * 2.5;
-              } else if (this.size > this.originalSize) { this.size -= 0.05; }
-            }
-            if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
-            if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
-            this.x += this.speedX; this.y += this.speedY;
+            this.x += this.speedX;
+            this.y += this.speedY;
+            if (this.x > canvas.width) this.x = 0;
+            if (this.x < 0) this.x = canvas.width;
+            if (this.y > canvas.height) this.y = 0;
+            if (this.y < 0) this.y = canvas.height;
           }
           draw() {
-            ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-            ctx.fillStyle = this.color; ctx.globalAlpha = this.opacity; ctx.fill(); ctx.globalAlpha = 1;
+            ctx.fillStyle = `rgba(184, 139, 74, ${this.opacity})`;
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx.fill();
           }
         }
         
         function init() {
-          resize(); particles = [];
-          const count = Math.min(80, Math.floor((canvas.width * canvas.height) / 18000));
-          for (let i = 0; i < count; i++) particles.push(new Particle());
+          for (let i = 0; i < particleCount; i++) particles.push(new Particle());
         }
-        function connect() {
-          const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-          const baseColor = isDark ? 'rgba(77, 208, 225,' : 'rgba(44, 95, 77,';
-          const mouseColor = isDark ? 'rgba(255, 152, 0,' : 'rgba(230, 126, 34,';
-          for (let a = 0; a < particles.length; a++) {
-            for (let b = a + 1; b < particles.length; b++) {
-              const dx = particles[a].x - particles[b].x, dy = particles[a].y - particles[b].y, distance = Math.sqrt(dx*dx + dy*dy);
-              if (distance < 130) {
-                const opacity = 0.18 - (distance / 130) * 0.12;
-                ctx.beginPath(); ctx.strokeStyle = baseColor + opacity + ')';
-                ctx.lineWidth = 0.6;
-                ctx.moveTo(particles[a].x, particles[a].y); ctx.lineTo(particles[b].x, particles[b].y); ctx.stroke();
-              }
-            }
-            if (mouse.x !== null && mouse.y !== null) {
-              const dx = particles[a].x - mouse.x, dy = particles[a].y - mouse.y, distance = Math.sqrt(dx*dx + dy*dy);
-              if (distance < mouse.radius) {
-                const opacity = 0.35 - (distance / mouse.radius) * 0.25;
-                ctx.beginPath(); ctx.strokeStyle = mouseColor + opacity + ')';
-                ctx.lineWidth = 1;
-                ctx.moveTo(particles[a].x, particles[a].y); ctx.lineTo(mouse.x, mouse.y); ctx.stroke();
-              }
-            }
-          }
-        }
+        
         function animate() {
           ctx.clearRect(0, 0, canvas.width, canvas.height);
-          for (const p of particles) { p.update(); p.draw(); }
-          connect(); animationFrameId = requestAnimationFrame(animate);
+          particles.forEach(p => { p.update(); p.draw(); });
+          requestAnimationFrame(animate);
         }
-        window.addEventListener('resize', () => { resize(); init(); }, { passive: true });
-        window.addEventListener('mousemove', (e) => { mouse.x = e.clientX; mouse.y = e.clientY; }, { passive: true });
-        window.addEventListener('touchmove', (e) => { if (e.touches[0]) { mouse.x = e.touches[0].clientX; mouse.y = e.touches[0].clientY; }}, { passive: true });
-        window.addEventListener('mouseout', () => { mouse.x = null; mouse.y = null; });
-        const themeObserver = new MutationObserver(() => {
-          particles.forEach(p => p.color = getThemeColors()[Math.floor(Math.random() * getThemeColors().length)]);
+        
+        init();
+        animate();
+        
+        window.addEventListener('resize', () => {
+          canvas.width = window.innerWidth;
+          canvas.height = window.innerHeight;
         });
-        themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
-        document.addEventListener('visibilitychange', () => { if (document.hidden) cancelAnimationFrame(animationFrameId); else animate(); });
-        init(); animate();
       })();
-      
-      // ===== INITIALIZE =====
-      initScrollAnimations();
-      initMenuTabs();
-      setTimeout(() => { if (typeof highlightActiveLink === 'function') highlightActiveLink(); }, 200);
     });
   </script>
-  
-  <style>
-    /* ===== BASE VARIABLES ===== */
-    :root {
-      --primary: #2c5f4d; --accent: #e67e22; --accent-hover: #d35400;
-      --dark: #1a252f; --light: #f8f9fa;
-      --shadow: 0 4px 20px rgba(0,0,0,0.08); --shadow-hover: 0 8px 30px rgba(0,0,0,0.12);
-      --radius: 12px;
-      --bg-body: #fff; --bg-section: #f8f9fa; --text-main: #333; --text-muted: #666; --card-bg: #fff;
-      --particle-bg-start: #f8f9fa; --particle-bg-end: #e8f4f8; --input-border: #e0e0e0;
-    }
-    [data-theme="dark"] {
-      --bg-body: #121212; --bg-section: #1e1e1e; --text-main: #e0e0e0; --text-muted: #b0b0b0; --card-bg: #1e1e1e;
-      --shadow: 0 4px 20px rgba(0,0,0,0.3); --particle-bg-start: #1a252f; --particle-bg-end: #2c3e50; --input-border: #444;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      line-height: 1.6; color: var(--text-main); background: var(--bg-body);
-      overflow-x: hidden; transition: background-color 0.3s, color 0.3s;
-    }
-    a { text-decoration: none; color: inherit; transition: color 0.3s; }
-    img { max-width: 100%; display: block; }
-    .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; position: relative; z-index: 2; }
-    
-    /* ===== SCROLL ANIMATIONS ===== */
-    .scroll-reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease, transform 0.6s ease; }
-    .scroll-reveal.visible { opacity: 1; transform: translateY(0); }
-    .scroll-reveal.delay-1 { transition-delay: 0.1s; }
-    .scroll-reveal.delay-2 { transition-delay: 0.2s; }
-    .scroll-reveal.delay-3 { transition-delay: 0.3s; }
-    .card-hover { transition: transform 0.3s ease, box-shadow 0.3s ease; }
-    .card-hover:hover { transform: translateY(-8px); box-shadow: var(--shadow-hover); }
-    
-    /* ===== PAGE HERO ===== */
-    .page-hero {
-      background: linear-gradient(135deg, rgba(44,95,77,0.9), rgba(26,37,47,0.85)),
-                  url('https://images.unsplash.com/photo-1540541338287-41700207dee6?auto=format&fit=crop&w=1920&q=80') center/cover;
-      padding: 120px 0 80px; text-align: center; color: #fff;
-    }
-    .page-hero h1 {
-      font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; margin-bottom: 1rem;
-      text-shadow: 0 2px 15px rgba(0,0,0,0.4);
-    }
-    .page-hero p {
-      font-size: 1.2rem; opacity: 0.95; max-width: 600px; margin: 0 auto;
-    }
-    
-    /* ===== VENUES GRID ===== */
-    .venues-grid {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 30px; padding: 40px 0;
-    }
-    .venue-card {
-      background: var(--card-bg); border-radius: var(--radius);
-      overflow: hidden; box-shadow: var(--shadow); position: relative;
-    }
-    .venue-badge {
-      position: absolute; top: 15px; left: 15px;
-      background: var(--accent); color: #fff; padding: 6px 12px;
-      border-radius: 20px; font-size: 0.8rem; font-weight: 600; z-index: 2;
-    }
-    .venue-image {
-      height: 220px; background: #ddd center/cover no-repeat;
-    }
-    .venue-content { padding: 25px; }
-    .venue-content h3 {
-      color: var(--primary); font-size: 1.4rem; margin-bottom: 10px;
-    }
-    .venue-tags {
-      display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 15px;
-    }
-    .venue-tags span {
-      background: var(--bg-section); padding: 5px 10px; border-radius: 15px;
-      font-size: 0.85rem; color: var(--text-muted);
-    }
-    .venue-content p { color: var(--text-muted); margin: 12px 0; line-height: 1.6; }
-    .chef-special {
-      background: rgba(230, 126, 34, 0.1); padding: 12px; border-radius: 8px;
-      border-left: 3px solid var(--accent); margin: 15px 0;
-    }
-    .btn-primary {
-      display: inline-block; background: var(--primary); color: #fff;
-      padding: 12px 25px; border-radius: 8px; font-weight: 600;
-      transition: background 0.3s; text-decoration: none;
-    }
-    .btn-primary:hover { background: #234d3e; }
-    
-    /* ===== HOURS SECTION ===== */
-    .hours-bg { background: var(--bg-section); padding: 60px 0; }
-    .section-header {
-      text-align: center; margin-bottom: 40px;
-    }
-    .section-header h2 {
-      font-size: 2rem; color: var(--primary); margin-bottom: 1rem; font-weight: 700;
-    }
-    .section-header p {
-      color: var(--text-muted); max-width: 600px; margin: 0 auto; font-size: 1.1rem;
-    }
-    .hours-grid {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 25px;
-    }
-    .hours-card {
-      background: var(--card-bg); padding: 25px; border-radius: var(--radius);
-      box-shadow: var(--shadow);
-    }
-    .hours-card h3 {
-      color: var(--primary); margin-bottom: 15px; font-size: 1.2rem;
-    }
-    .hours-card ul { list-style: none; }
-    .hours-card li {
-      display: flex; align-items: center; gap: 10px; margin: 10px 0;
-      color: var(--text-muted);
-    }
-    .hours-card li span { font-size: 1.1rem; color: var(--accent); }
-    
-    /* ===== MENU TABS ===== */
-    .menu-tabs {
-      display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;
-      margin-bottom: 30px;
-    }
-    .tab-btn {
-      padding: 10px 25px; border: 2px solid var(--input-border);
-      border-radius: 30px; background: var(--card-bg); color: var(--text-main);
-      font-weight: 500; cursor: pointer; transition: all 0.3s;
-    }
-    .tab-btn:hover, .tab-btn.active {
-      border-color: var(--accent); background: var(--accent); color: #fff;
-    }
-    .menu-content { max-width: 800px; margin: 0 auto; }
-    .tab-panel { display: none; }
-    .tab-panel.active { display: block; animation: fadeIn 0.3s ease; }
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-    .menu-item {
-      background: var(--card-bg); padding: 20px; border-radius: var(--radius);
-      box-shadow: var(--shadow); margin-bottom: 15px;
-    }
-    .menu-item-header {
-      display: flex; justify-content: space-between; align-items: center;
-      margin-bottom: 10px;
-    }
-    .menu-item-header h4 { color: var(--primary); font-size: 1.1rem; }
-    .menu-price { color: var(--accent); font-weight: 700; font-size: 1.1rem; }
-    .menu-item p { color: var(--text-muted); font-size: 0.95rem; }
-    .btn-link {
-      color: var(--accent); font-weight: 600; display: inline-flex;
-      align-items: center; gap: 6px;
-    }
-    .btn-link:hover { gap: 10px; }
-    
-    /* ===== EXPERIENCES SECTION ===== */
-    .experiences-bg {
-      background: linear-gradient(135deg, var(--primary), #1a3a32);
-      color: #fff; padding: 70px 0; text-align: center;
-    }
-    .experiences-bg .section-header h2 { color: #fff; }
-    .experiences-bg .section-header p { color: rgba(255,255,255,0.9); }
-    .btn-hero {
-      background: #fff; color: var(--primary); padding: 16px 40px;
-      border-radius: 10px; font-weight: 700; font-size: 1.1rem;
-      transition: transform 0.3s; display: inline-block; text-decoration: none;
-    }
-    .btn-hero:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
-    
-    /* ===== DIETARY INFO ===== */
-    .dietary-info {
-      background: var(--bg-section); padding: 30px; border-radius: var(--radius);
-      text-align: center; margin: 40px 0;
-    }
-    .dietary-info h3 { color: var(--primary); margin-bottom: 10px; }
-    .dietary-info p { color: var(--text-muted); margin-bottom: 15px; }
-    
-    /* ===== FINAL CTA ===== */
-    .final-cta-dining {
-      text-align: center; padding: 80px 0;
-      background: linear-gradient(135deg, rgba(44,95,77,0.95), rgba(26,37,47,0.9)),
-                  url('https://images.unsplash.com/photo-1520257328597-2c6d0e7f6f8e?auto=format&fit=crop&w=1920&q=80') center/cover;
-      color: #fff;
-    }
-    .final-cta-dining h2 {
-      font-size: clamp(1.8rem, 4vw, 2.5rem); margin-bottom: 1rem; font-weight: 700;
-    }
-    .final-cta-dining p {
-      font-size: 1.15rem; max-width: 600px; margin: 0 auto 2rem; opacity: 0.95;
-    }
-    .contact-note { font-size: 1rem; opacity: 0.9; }
-    
-    /* ===== RESPONSIVE ===== */
-    @media (max-width: 768px) {
-      .page-hero { padding: 100px 0 60px; }
-      .page-hero h1 { font-size: 2.3rem; }
-      .venues-grid { grid-template-columns: 1fr; }
-      .hours-grid { grid-template-columns: 1fr; }
-      .menu-tabs { flex-wrap: wrap; }
-      .tab-btn { padding: 8px 18px; font-size: 0.9rem; }
-      .final-cta-dining h2 { font-size: 2rem; }
-      .final-cta-dining p { font-size: 1.05rem; }
-    }
-    @media (max-width: 480px) {
-      .page-hero h1 { font-size: 2rem; }
-      .btn-hero { width: 100%; padding: 14px; }
-      .menu-item-header { flex-direction: column; align-items: flex-start; gap: 5px; }
-    }
-    
-    /* ===== ACCESSIBILITY ===== */
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        animation-duration: 0.01ms !important; transition-duration: 0.01ms !important;
-      }
-    }
-    a:focus-visible, button:focus-visible {
-      outline: 3px solid var(--accent); outline-offset: 2px; border-radius: 8px;
-    }
-  </style>
 </body>
 </html>
